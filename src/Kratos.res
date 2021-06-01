@@ -4,6 +4,13 @@ type options = {
 type configuration
 type publicAPI
 
+type message = {
+  id: int,
+  text: string,
+}
+
+type messageList = array<message>
+
 type recoveryFlowResponse = {
   status: int,
 }
@@ -11,7 +18,7 @@ type recoveryFlowResponse = {
 type inputField = {
   name: string,
   required: bool,
-  type_: string,
+  \"type": string,
   value: string,
 }
 
@@ -19,6 +26,13 @@ type loginTypeConfig = {
   action: string,
   method: string,
   fields: array<inputField>,
+  messages: option<messageList>,
+}
+
+type supportedMethod = {
+  config: loginTypeConfig,
+  method: string,
+  messages: array<string>,
 }
 
 type loginPayload = {
@@ -28,8 +42,7 @@ type loginPayload = {
   issued_at: string,
   // This might not quite be right because this field is nullable.
   messages: array<string>,
-  methods: Js.Dict.t<loginTypeConfig>,
-  // messages omitted
+  methods: Js.Dict.t<supportedMethod>,
 
 }
 
