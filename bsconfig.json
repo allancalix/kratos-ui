@@ -1,0 +1,22 @@
+{
+  "name": "reason-trial",
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "bs-dependencies": [
+		"@rescript/react",
+    "reason-promise"
+	],
+  "reason": {"react-jsx" : 3},
+  "refmt": 3
+}

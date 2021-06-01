@@ -1,0 +1,6 @@
+.merlin
+/node_modules/
+.bsb.lock
+.cache
+lib
+dist

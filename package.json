@@ -1,0 +1,25 @@
+{
+  "name": "reason-trial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "re:build": "rescript",
+    "re:start": "rescript build -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@ory/kratos-client": "^0.6.3-alpha.1",
+    "@rescript/react": "^0.10.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "reason-promise": "^1.1.4"
+  },
+  "devDependencies": {
+    "rescript": "^9.1.2",
+    "parcel-bundler": "^1.12.5"
+  }
+
+}
