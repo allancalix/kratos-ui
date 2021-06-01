@@ -3,24 +3,30 @@
 import * as Login from "./Pages/Login.bs.js";
 import * as React from "react";
 import * as NotFound from "./Pages/NotFound.bs.js";
+import * as Register from "./Pages/Register.bs.js";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
 function App(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = url.path;
-  if (match) {
-    if (match.hd === "login") {
-      if (match.tl) {
-        return React.createElement(NotFound.make, {});
-      } else {
-        return React.createElement(Login.make, {});
-      }
-    } else {
-      return React.createElement(NotFound.make, {});
-    }
-  } else {
+  if (!match) {
     return React.createElement("h1", undefined, "Dashboard Home");
   }
+  switch (match.hd) {
+    case "login" :
+        if (!match.tl) {
+          return React.createElement(Login.make, {});
+        }
+        break;
+    case "register" :
+        if (!match.tl) {
+          return React.createElement(Register.make, {});
+        }
+        break;
+    default:
+      
+  }
+  return React.createElement(NotFound.make, {});
 }
 
 var make = App;

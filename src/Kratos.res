@@ -35,7 +35,7 @@ type supportedMethod = {
   messages: array<string>,
 }
 
-type loginPayload = {
+type payload = {
   expires_at: string,
   forced: bool,
   id: string,
@@ -48,7 +48,12 @@ type loginPayload = {
 
 type loginFlowResponse = {
   status: int,
-  data: loginPayload,
+  data: payload,
+}
+
+type registrationFlowResponse = {
+  status: int,
+  data: payload,
 }
 
 @bs.new @module("@ory/kratos-client") external makeConfiguration: options => configuration = "Configuration"
@@ -58,3 +63,6 @@ type loginFlowResponse = {
 
 @bs.send external getSelfServiceLoginFlow: (publicAPI, string) =>
   Promise.t<loginFlowResponse> = "getSelfServiceLoginFlow"
+
+@bs.send external getSelfServiceRegistrationFlow: (publicAPI, string) =>
+  Promise.t<registrationFlowResponse> = "getSelfServiceRegistrationFlow"

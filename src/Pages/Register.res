@@ -1,6 +1,6 @@
 @val external window: {..} = "window"
 
-let selfServeEndpoint = "http://127.0.0.1:4433/self-service/login/browser"
+let selfServeEndpoint = "http://127.0.0.1:4433/self-service/registration/browser"
 
 let opts: Kratos.options = { basePath: "http://127.0.0.1:4433"}
 
@@ -41,15 +41,16 @@ let make = () => {
     switch url -> Url.parseSearchParams -> Belt.Map.get("flow") {
       | Some(id) => {
         api
-        ->Kratos.getSelfServiceLoginFlow(id)
+        ->Kratos.getSelfServiceRegistrationFlow(id)
         -> Promise.Js.catch(err => {
           Js.log(err)
-          RescriptReactRouter.push("/login")
+          RescriptReactRouter.push("/register")
           Promise.Js.rejected(err)
         })
         -> Promise.get(res => {
+          Js.log(res)
           if res.status !== 200 {
-            RescriptReactRouter.push("/login")
+            RescriptReactRouter.push("/register")
           }
           setMethods(_prev => res.data.methods)
         })
@@ -77,6 +78,7 @@ let make = () => {
   })
 
   <div>
+    <h1>{React.string("registration")}</h1>
     {React.array(loginForms)}
   </div>
 }

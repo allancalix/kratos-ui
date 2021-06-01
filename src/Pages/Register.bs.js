@@ -9,7 +9,7 @@ import * as Belt_Map from "rescript/lib/es6/belt_Map.js";
 import * as KratosClient from "@ory/kratos-client";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
-var selfServeEndpoint = "http://127.0.0.1:4433/self-service/login/browser";
+var selfServeEndpoint = "http://127.0.0.1:4433/self-service/registration/browser";
 
 var opts = {
   basePath: "http://127.0.0.1:4433"
@@ -38,7 +38,7 @@ function renderMessages(messages) {
   }
 }
 
-function Login(Props) {
+function Register(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = React.useState(function () {
         return {};
@@ -47,13 +47,14 @@ function Login(Props) {
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
-            $$Promise.get($$Promise.Js.$$catch(api.getSelfServiceLoginFlow(id), (function (err) {
+            $$Promise.get($$Promise.Js.$$catch(api.getSelfServiceRegistrationFlow(id), (function (err) {
                         console.log(err);
-                        RescriptReactRouter.push("/login");
+                        RescriptReactRouter.push("/register");
                         return $$Promise.Js.rejected(err);
                       })), (function (res) {
+                    console.log(res);
                     if (res.status !== 200) {
-                      RescriptReactRouter.push("/login");
+                      RescriptReactRouter.push("/register");
                     }
                     return Curry._1(setMethods, (function (_prev) {
                                   return res.data.methods;
@@ -80,10 +81,10 @@ function Login(Props) {
                             type: "submit"
                           })));
       });
-  return React.createElement("div", undefined, loginForms);
+  return React.createElement("div", undefined, React.createElement("h1", undefined, "registration"), loginForms);
 }
 
-var make = Login;
+var make = Register;
 
 export {
   selfServeEndpoint ,
