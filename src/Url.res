@@ -5,7 +5,7 @@ module SearchKeyCmp = Belt.Id.MakeComparable({
 
 let parseSearchParams = (url: RescriptReactRouter.url) => {
   url.search
-    -> Js.String2.split(",")
+    -> Js.String2.split("&")
     -> Js.Array2.filter((v) => v -> Js.String2.match_(%re("/.*=.*/")) != None)
     -> Js.Array2.reduce((acc, item) => {
       let kv = item -> Js.String2.split("=")
