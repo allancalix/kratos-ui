@@ -1,14 +1,21 @@
 let shouldShowLabel = (t) => t !== "hidden"
 
+module NonStandardProps = {
+  @react.component
+  let make = (~props, ~children) => React.cloneElement(children, props)
+}
+
 @react.component
 let make = (~field: Kratos.inputField) => <>
     {
       switch shouldShowLabel(field.\"type") {
         | false => React.null
         | true => {
-          <label key={field.name} className="sr-only">
-            {React.string(field.name)}
-          </label>
+          <NonStandardProps props={"data-testid": "label"}>
+            <label key={field.name} className="sr-only" >
+              {React.string(field.name)}
+            </label>
+          </NonStandardProps>
         }
       }
     }

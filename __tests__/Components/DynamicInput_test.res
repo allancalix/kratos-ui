@@ -1,7 +1,7 @@
 open Jest
+open JestDom
 
 describe("DynamicInputComponent", () => {
-    open Expect
     open ReactTestingLibrary
 
     let field: Kratos.inputField = {
@@ -11,19 +11,27 @@ describe("DynamicInputComponent", () => {
       value: "",
     }
 
-    test("snapshot to match expected", () =>
+    test("when type is not hidden type then matches expected", () =>
       <DynamicInput field={field} />
         -> render
         |> container
-        |> expect
-        |> toMatchSnapshot
+        |> Expect.expect
+        |> Expect.toMatchSnapshot
     )
 
-    test("snapshot to match expected", () =>
+    test("when type is hidden then matches snapshot", () =>
       <DynamicInput field={{...field, \"type": "hidden"}} />
         -> render
         |> container
+        |> Expect.expect
+        |> Expect.toMatchSnapshot
+    )
+
+    test("when type is not hidden then has visible label", () =>
+      <DynamicInput field={field} />
+        |> render
+        |> getByTestId(~matcher=#Str("label"))
         |> expect
-        |> toMatchSnapshot
+        |> toHaveTextContent(#Str("password"))
     )
 })
