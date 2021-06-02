@@ -8,9 +8,9 @@ selfservice:
     link:
       enabled: true
 
-  default_browser_return_url: http://127.0.0.1:3000/dashboard
+  default_browser_return_url: http://127.0.0.1:3000/
   whitelisted_return_urls:
-    - http://127.0.0.1:3000/dashboard
+    - http://127.0.0.1:3000/
 
   flows:
     logout:

@@ -4,13 +4,17 @@ import * as Login from "./Pages/Login.bs.js";
 import * as React from "react";
 import * as NotFound from "./Pages/NotFound.bs.js";
 import * as Register from "./Pages/Register.bs.js";
+import * as Dashboard from "./Pages/Dashboard.bs.js";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
+
+import './app.css'
+;
 
 function App(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = url.path;
   if (!match) {
-    return React.createElement("h1", undefined, "Dashboard Home");
+    return React.createElement(Dashboard.make, {});
   }
   switch (match.hd) {
     case "login" :
@@ -35,4 +39,4 @@ export {
   make ,
   
 }
-/* Login Not a pure module */
+/*  Not a pure module */

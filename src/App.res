@@ -1,9 +1,11 @@
+%%raw("import './app.css'")
+
 @react.component
 let make = () => {
   let url = RescriptReactRouter.useUrl()
 
   switch url.path {
-    | list{} => <h1>{React.string("Dashboard Home")}</h1>
+    | list{} => <Dashboard/>
     | list{"login"} => <Login/>
     | list{"register"} => <Register/>
     | _ => <NotFound/>
