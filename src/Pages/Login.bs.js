@@ -9,6 +9,7 @@ var Kratos = require("../Bindings/Kratos.bs.js");
 var Js_dict = require("rescript/lib/js/js_dict.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
+var Messages = require("./Messages.bs.js");
 var DynamicInputList = require("../Components/DynamicInputList.bs.js");
 var KratosClient = require("@ory/kratos-client");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
@@ -61,7 +62,7 @@ function Login(Props) {
                         className: "max-w-md w-full space-y-8"
                       }, React.createElement("div", undefined, React.createElement("h2", {
                                 className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
-                              }, "Sign in"), React.createElement("p", {
+                              }, Messages.Login.title), React.createElement("p", {
                                 className: "mt-2 text-center text-sm text-gray-600"
                               }, "Or ", React.createElement("a", {
                                     className: "font-medium text-indigo-600 hover:text-indigo-500",
@@ -89,10 +90,10 @@ function Login(Props) {
                                     className: "text-sm"
                                   }, React.createElement("a", {
                                         className: "font-medium text-indigo-600 hover:text-indigo-500"
-                                      }, "Forgot your password?"))), React.createElement("div", undefined, React.createElement("button", {
+                                      }, Messages.Login.forgotPasswordLabel))), React.createElement("div", undefined, React.createElement("button", {
                                     className: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
                                     type: "submit"
-                                  }, "Sign in")))));
+                                  }, Messages.Login.submitButtonLabel)))));
       });
   return React.createElement("div", undefined, loginForms);
 }
