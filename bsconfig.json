@@ -27,6 +27,9 @@
     "@rescriptbr/react-testing-library",
     "bs-jest-dom"
   ],
+  "warnings": {
+    "number": "-48",
+  },
   "reason": {"react-jsx" : 3},
   "refmt": 3
 }
