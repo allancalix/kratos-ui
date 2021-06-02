@@ -2,6 +2,7 @@
 'use strict';
 
 var Url = require("../Url.bs.js");
+var Form = require("../Components/Form.bs.js");
 var Curry = require("rescript/lib/js/curry.js");
 var Route = require("./Route.bs.js");
 var React = require("react");
@@ -10,7 +11,6 @@ var Js_dict = require("rescript/lib/js/js_dict.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
-var DynamicInputList = require("../Components/DynamicInputList.bs.js");
 var KratosClient = require("@ory/kratos-client");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
@@ -76,24 +76,13 @@ function Login(Props) {
                             return React.createElement("p", {
                                         key: String(m.id)
                                       }, m.text);
-                          }), React.createElement("form", {
-                            className: "mt-8 space-y-6",
-                            action: method.config.action,
-                            method: method.config.method
-                          }, React.createElement("div", {
-                                className: "mt-8 space-y-6"
-                              }, React.createElement(DynamicInputList.make, {
-                                    fields: method.config.fields
-                                  })), React.createElement("div", {
-                                className: "flex items-center justify-between"
-                              }, React.createElement("div", {
-                                    className: "text-sm"
-                                  }, React.createElement("a", {
-                                        className: "font-medium text-indigo-600 hover:text-indigo-500"
-                                      }, Messages.Login.forgotPasswordLabel))), React.createElement("div", undefined, React.createElement("button", {
-                                    className: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
-                                    type: "submit"
-                                  }, Messages.Login.submitButtonLabel)))));
+                          }), React.createElement(Form.make, {
+                            method: method,
+                            submitButtonLabel: Messages.Login.submitButtonLabel,
+                            children: React.createElement("a", {
+                                  className: "font-medium text-indigo-600 hover:text-indigo-500"
+                                }, Messages.Login.forgotPasswordLabel)
+                          })));
       });
   return React.createElement("div", undefined, loginForms);
 }
