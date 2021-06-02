@@ -4,16 +4,15 @@ import * as Url from "../Url.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Route from "./Route.bs.js";
 import * as React from "react";
+import * as Kratos from "../Bindings/Kratos.bs.js";
 import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as $$Promise from "reason-promise/src/js/promise.bs.js";
 import * as Belt_Map from "rescript/lib/es6/belt_Map.js";
 import * as KratosClient from "@ory/kratos-client";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
-var selfServeEndpoint = "http://127.0.0.1:4433/self-service/login/browser";
-
 var opts = {
-  basePath: "http://127.0.0.1:4433"
+  basePath: Kratos.basePath
 };
 
 var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
@@ -64,7 +63,7 @@ function Login(Props) {
                                 }));
                   }));
           } else {
-            window.location.href = selfServeEndpoint;
+            window.location.href = Kratos.loginSelfServeEndpoint;
           }
           
         }), []);
@@ -109,6 +108,8 @@ function Login(Props) {
       });
   return React.createElement("div", undefined, loginForms);
 }
+
+var selfServeEndpoint = Kratos.loginSelfServeEndpoint;
 
 var make = Login;
 

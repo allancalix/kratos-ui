@@ -4,10 +4,11 @@ import * as XHR from "../XHR.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as Route from "./Route.bs.js";
 import * as React from "react";
+import * as Kratos from "../Bindings/Kratos.bs.js";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
 function signOut(param) {
-  window.location.href = "http://127.0.0.1:4433/self-service/browser/flows/logout";
+  window.location.href = Kratos.logoutSelfServeEndpoint;
   
 }
 

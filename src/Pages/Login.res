@@ -1,8 +1,8 @@
 @val external window: {..} = "window"
 
-let selfServeEndpoint = "http://127.0.0.1:4433/self-service/login/browser"
+let selfServeEndpoint = Kratos.loginSelfServeEndpoint
 
-let opts: Kratos.options = { basePath: "http://127.0.0.1:4433"}
+let opts: Kratos.options = { basePath: Kratos.basePath}
 
 let api = opts
 |> Kratos.makeConfiguration

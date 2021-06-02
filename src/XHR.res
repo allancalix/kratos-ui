@@ -68,7 +68,7 @@ let whoami = (~onDone, ~onError, ()) => {
   request->withCredentials(true)
   request->open_(
     "GET",
-    "http://127.0.0.1:4433/sessions/whoami",
+    Kratos.whoamiEndpoint,
   )
   request->send
 

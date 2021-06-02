@@ -1,3 +1,15 @@
+@val external process: {..} = "process"
+
+let basePath = process["env"]["KRATOS_API"]
+
+let loginSelfServeEndpoint = `${basePath}/self-service/login/browser`
+
+let registrationSelfServeEndpoint = `${basePath}/self-service/registration/browser`
+
+let logoutSelfServeEndpoint = `${basePath}/self-service/browser/flows/logout`
+
+let whoamiEndpoint = `${basePath}/sessions/whoami`,
+
 type options = {
   basePath: string,
 }
