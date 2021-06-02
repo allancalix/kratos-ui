@@ -1,5 +1,7 @@
 module.exports = {
-  purge: [],
+  purge: [
+    "src/**/*.res",
+  ],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},

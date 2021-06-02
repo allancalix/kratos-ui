@@ -76,7 +76,9 @@ function Login(Props) {
                           })), React.createElement("form", {
                         action: method.config.action,
                         method: method.config.method
-                      }, React.createElement("p", undefined, "Config for method detected: " + method.method), renderInputs(method.config.fields), React.createElement("input", {
+                      }, React.createElement("p", {
+                            className: "inline-block text-base text-fire"
+                          }, "Config for method detected: " + method.method), renderInputs(method.config.fields), React.createElement("input", {
                             name: "submit",
                             type: "submit"
                           })), React.createElement("a", {

@@ -7,9 +7,6 @@ import * as Register from "./Pages/Register.bs.js";
 import * as Dashboard from "./Pages/Dashboard.bs.js";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
-import './app.css'
-;
-
 function App(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = url.path;
@@ -39,4 +36,4 @@ export {
   make ,
   
 }
-/*  Not a pure module */
+/* Login Not a pure module */

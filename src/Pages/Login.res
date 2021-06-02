@@ -69,7 +69,9 @@ let make = () => {
       }
       </ div>
       <form action={method.config.action} method={method.config.method}>
-        <p>{React.string("Config for method detected: "++method.method)}</p>
+        <p className={"inline-block text-base text-fire"}>
+          {React.string("Config for method detected: "++method.method)}
+        </p>
         {React.array(renderInputs(method.config.fields))}
         <input type_="submit" name="submit" />
       </form>

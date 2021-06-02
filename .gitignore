@@ -1,6 +1,7 @@
 .merlin
 /node_modules/
 .bsb.lock
+.parcel-cache
 .cache
 lib
 dist
