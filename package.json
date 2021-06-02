@@ -7,7 +7,7 @@
     "re:build": "rescript",
     "re:start": "rescript build -w",
     "serve": "parcel serve index.html -p 3000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run re:start && jest -v"
   },
   "author": "",
   "license": "ISC",
