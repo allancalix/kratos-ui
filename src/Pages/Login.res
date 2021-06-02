@@ -73,6 +73,7 @@ let make = () => {
         {React.array(renderInputs(method.config.fields))}
         <input type_="submit" name="submit" />
       </form>
+      <a onClick={_ => RescriptReactRouter.push("/register")}>{React.string("Create Account")}</a>
     </div>
   })
 

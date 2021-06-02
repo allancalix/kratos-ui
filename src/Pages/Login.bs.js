@@ -78,7 +78,11 @@ function Login(Props) {
                       }, React.createElement("p", undefined, "Config for method detected: " + method.method), renderInputs(method.config.fields), React.createElement("input", {
                             name: "submit",
                             type: "submit"
-                          })));
+                          })), React.createElement("a", {
+                        onClick: (function (param) {
+                            return RescriptReactRouter.push("/register");
+                          })
+                      }, "Create Account"));
       });
   return React.createElement("div", undefined, loginForms);
 }

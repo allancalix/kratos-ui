@@ -3,6 +3,12 @@
 import * as XHR from "../XHR.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
+import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
+
+function signOut(param) {
+  window.location.href = "http://127.0.0.1:4433/self-service/browser/flows/logout";
+  
+}
 
 function Dashboard(Props) {
   var match = React.useState(function () {
@@ -12,25 +18,36 @@ function Dashboard(Props) {
   var identity = match[0];
   React.useEffect((function () {
           XHR.whoami((function (res) {
-                  return Curry._1(setIdentity, (function (_prev) {
-                                return res.identity;
-                              }));
-                }), (function (err) {
-                  console.log(err);
+                  var e = res.error;
+                  if (e !== undefined) {
+                    console.log(e);
+                    if (e.code === 401) {
+                      return RescriptReactRouter.push("/login");
+                    } else {
+                      return ;
+                    }
+                  } else {
+                    return Curry._1(setIdentity, (function (_prev) {
+                                  return res.identity;
+                                }));
+                  }
+                }), (function (e) {
+                  console.log(e);
                   
                 }), undefined);
           
         }), []);
-  if (identity !== undefined) {
-    return React.createElement("h1", undefined, "Hello " + identity.traits.name.first + "!");
-  } else {
-    return null;
-  }
+  return React.createElement("div", undefined, identity !== undefined ? React.createElement("div", undefined, React.createElement("header", undefined, React.createElement("button", {
+                            onClick: (function (_event) {
+                                return signOut(undefined);
+                              })
+                          }, "Sign out")), React.createElement("h1", undefined, "Hello " + identity.traits.name.first + "!")) : null);
 }
 
 var make = Dashboard;
 
 export {
+  signOut ,
   make ,
   
 }

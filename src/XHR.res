@@ -47,13 +47,14 @@ type t = {
   id: string,
   identity: user,
   issued_at: string,
+  error: option<errorType>,
 }
 
 @bs.scope("JSON") @bs.val
 external parseResponse: response => t = "parse"
 
 @bs.scope("JSON") @bs.val
-external parseError: response => array<et> = "parse"
+external parseError: response => et = "parse"
 
 let whoami = (~onDone, ~onError, ()) => {
   let request = makeXMLHttpRequest()
