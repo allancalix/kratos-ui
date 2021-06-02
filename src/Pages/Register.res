@@ -11,14 +11,16 @@ let api = opts
 let renderInputs = (fields: array<Kratos.inputField>) => {
   fields->Js.Array2.map((field) => {
       <>
-        <label key={field.name}>
+        <label key={field.name} className="sr-only">
           {field.\"type" !== "hidden" ? React.string(field.name) : React.string("")}
-          <input
-            name={field.name}
-            defaultValue={field.value}
-            type_={field.\"type"}
-            required={field.required}/>
-        </label><br />
+        </label>
+        <input
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          name={field.name}
+          defaultValue={field.value}
+          placeholder={field.name}
+          type_={field.\"type"}
+          required={field.required}/>
       </>
   })
 }
@@ -69,16 +71,23 @@ let make = () => {
         }))
       }
       </ div>
-      <form action={method.config.action} method={method.config.method}>
-        <p>{React.string("Config for method detected: "++method.method)}</p>
+      <form className="mt-8 space-y-6" action={method.config.action} method={method.config.method}>
         {React.array(renderInputs(method.config.fields))}
-        <input type_="submit" name="submit" />
+        <button type_="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          {React.string("Register")}
+        </button>
       </form>
     </div>
   })
 
-  <div>
-    <h1>{React.string("registration")}</h1>
-    {React.array(loginForms)}
+  <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="max-w-md w-full space-y-8">
+      <div>
+        <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          {React.string("Registration")}
+        </h1>
+      </div>
+      {React.array(loginForms)}
+    </div>
   </div>
 }

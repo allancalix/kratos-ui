@@ -75,28 +75,28 @@ let make = () => {
             </a>
           </p>
         </div>
-      {
-        React.array(method.config.messages -> renderMessages -> Js.Array2.map((m) => {
-          <p key={m.id -> Belt.Int.toString}>{React.string(m.text)}</p>
-        }))
-      }
-      <form className="mt-8 space-y-6" action={method.config.action} method={method.config.method}>
-        <div className="mt-8 space-y-6">
-          {React.array(renderInputs(method.config.fields))}
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="text-sm">
-            <a className="font-medium text-indigo-600 hover:text-indigo-500">
-              {React.string("Forgot your password?")}
-            </a>
+        {
+          React.array(method.config.messages -> renderMessages -> Js.Array2.map((m) => {
+            <p key={m.id -> Belt.Int.toString}>{React.string(m.text)}</p>
+          }))
+        }
+        <form className="mt-8 space-y-6" action={method.config.action} method={method.config.method}>
+          <div className="mt-8 space-y-6">
+            {React.array(renderInputs(method.config.fields))}
           </div>
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                {React.string("Forgot your password?")}
+              </a>
+            </div>
+          </div>
+          <div>
+            <button type_="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              {React.string("Sign in")}
+            </button>
         </div>
-        <div>
-          <button type_="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            {React.string("Sign in")}
-          </button>
-      </div>
-    </form>
+      </form>
     </div>
   </div>
   })
