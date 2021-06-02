@@ -2,6 +2,7 @@
 
 import * as XHR from "../XHR.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Route from "./Route.bs.js";
 import * as React from "react";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.bs.js";
 
@@ -22,7 +23,7 @@ function Dashboard(Props) {
                   if (e !== undefined) {
                     console.log(e);
                     if (e.code === 401) {
-                      return RescriptReactRouter.push("/login");
+                      return RescriptReactRouter.push(Route.login);
                     } else {
                       return ;
                     }

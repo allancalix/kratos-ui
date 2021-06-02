@@ -44,12 +44,12 @@ let make = () => {
         ->Kratos.getSelfServiceLoginFlow(id)
         -> Promise.Js.catch(err => {
           Js.log(err)
-          RescriptReactRouter.push("/login")
+          RescriptReactRouter.push(Route.login)
           Promise.Js.rejected(err)
         })
         -> Promise.get(res => {
           if res.status !== 200 {
-            RescriptReactRouter.push("/login")
+            RescriptReactRouter.push(Route.login)
           }
           setMethods(_prev => res.data.methods)
         })
@@ -73,7 +73,7 @@ let make = () => {
         {React.array(renderInputs(method.config.fields))}
         <input type_="submit" name="submit" />
       </form>
-      <a onClick={_ => RescriptReactRouter.push("/register")}>{React.string("Create Account")}</a>
+      <a onClick={_ => RescriptReactRouter.push(Route.register)}>{React.string("Create Account")}</a>
     </div>
   })
 

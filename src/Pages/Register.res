@@ -44,13 +44,13 @@ let make = () => {
         ->Kratos.getSelfServiceRegistrationFlow(id)
         -> Promise.Js.catch(err => {
           Js.log(err)
-          RescriptReactRouter.push("/register")
+          RescriptReactRouter.push(Route.register)
           Promise.Js.rejected(err)
         })
         -> Promise.get(res => {
           Js.log(res)
           if res.status !== 200 {
-            RescriptReactRouter.push("/register")
+            RescriptReactRouter.push(Route.register)
           }
           setMethods(_prev => res.data.methods)
         })

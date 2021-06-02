@@ -11,7 +11,7 @@ let make = () => {
   let handleUnauthorized = (err: XHR.errorType) => {
     err -> Js.log
     if err.code === 401 {
-      RescriptReactRouter.push("/login")
+      RescriptReactRouter.push(Route.login)
     }
   }
 

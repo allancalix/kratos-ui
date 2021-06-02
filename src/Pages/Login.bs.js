@@ -2,6 +2,7 @@
 
 import * as Url from "../Url.bs.js";
 import * as Curry from "rescript/lib/es6/curry.js";
+import * as Route from "./Route.bs.js";
 import * as React from "react";
 import * as Js_dict from "rescript/lib/es6/js_dict.js";
 import * as $$Promise from "reason-promise/src/js/promise.bs.js";
@@ -49,11 +50,11 @@ function Login(Props) {
           if (id !== undefined) {
             $$Promise.get($$Promise.Js.$$catch(api.getSelfServiceLoginFlow(id), (function (err) {
                         console.log(err);
-                        RescriptReactRouter.push("/login");
+                        RescriptReactRouter.push(Route.login);
                         return $$Promise.Js.rejected(err);
                       })), (function (res) {
                     if (res.status !== 200) {
-                      RescriptReactRouter.push("/login");
+                      RescriptReactRouter.push(Route.login);
                     }
                     return Curry._1(setMethods, (function (_prev) {
                                   return res.data.methods;
@@ -80,7 +81,7 @@ function Login(Props) {
                             type: "submit"
                           })), React.createElement("a", {
                         onClick: (function (param) {
-                            return RescriptReactRouter.push("/register");
+                            return RescriptReactRouter.push(Route.register);
                           })
                       }, "Create Account"));
       });
