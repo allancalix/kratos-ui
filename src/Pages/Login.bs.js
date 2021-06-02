@@ -21,13 +21,16 @@ var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
 function renderInputs(fields) {
   return fields.map(function (field) {
               return React.createElement(React.Fragment, undefined, React.createElement("label", {
-                              key: field.name
-                            }, field.type !== "hidden" ? field.name : "", React.createElement("input", {
-                                  defaultValue: field.value,
-                                  name: field.name,
-                                  required: field.required,
-                                  type: field.type
-                                })), React.createElement("br", undefined));
+                              key: field.name,
+                              className: "sr-only"
+                            }, field.type !== "hidden" ? field.name : ""), React.createElement("input", {
+                              defaultValue: field.value,
+                              className: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
+                              name: field.name,
+                              placeholder: field.name,
+                              required: field.required,
+                              type: field.type
+                            }));
             });
 }
 
@@ -67,25 +70,42 @@ function Login(Props) {
         }), []);
   var loginForms = Js_dict.values(match[0]).map(function (method) {
         var messages = method.config.messages;
-        return React.createElement("div", undefined, React.createElement("div", undefined, (
+        return React.createElement("div", {
+                    className: "min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+                  }, React.createElement("div", {
+                        className: "max-w-md w-full space-y-8"
+                      }, React.createElement("div", undefined, React.createElement("h2", {
+                                className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
+                              }, "Sign in"), React.createElement("p", {
+                                className: "mt-2 text-center text-sm text-gray-600"
+                              }, "Or ", React.createElement("a", {
+                                    className: "font-medium text-indigo-600 hover:text-indigo-500",
+                                    href: "#",
+                                    onClick: (function (param) {
+                                        return RescriptReactRouter.push(Route.register);
+                                      })
+                                  }, "register"))), (
                           messages !== undefined ? messages : []
                         ).map(function (m) {
                             return React.createElement("p", {
                                         key: String(m.id)
                                       }, m.text);
-                          })), React.createElement("form", {
-                        action: method.config.action,
-                        method: method.config.method
-                      }, React.createElement("p", {
-                            className: "inline-block text-base text-fire"
-                          }, "Config for method detected: " + method.method), renderInputs(method.config.fields), React.createElement("input", {
-                            name: "submit",
-                            type: "submit"
-                          })), React.createElement("a", {
-                        onClick: (function (param) {
-                            return RescriptReactRouter.push(Route.register);
-                          })
-                      }, "Create Account"));
+                          }), React.createElement("form", {
+                            className: "mt-8 space-y-6",
+                            action: method.config.action,
+                            method: method.config.method
+                          }, React.createElement("div", {
+                                className: "mt-8 space-y-6"
+                              }, renderInputs(method.config.fields)), React.createElement("div", {
+                                className: "flex items-center justify-between"
+                              }, React.createElement("div", {
+                                    className: "text-sm"
+                                  }, React.createElement("a", {
+                                        className: "font-medium text-indigo-600 hover:text-indigo-500"
+                                      }, "Forgot your password?"))), React.createElement("div", undefined, React.createElement("button", {
+                                    className: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+                                    type: "submit"
+                                  }, "Sign in")))));
       });
   return React.createElement("div", undefined, loginForms);
 }
