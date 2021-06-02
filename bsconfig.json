@@ -24,7 +24,7 @@
 	],
   "bs-dev-dependencies": [
     "@glennsl/bs-jest",
-    "bs-react-testing-library",
+    "@rescriptbr/react-testing-library",
     "bs-jest-dom"
   ],
   "reason": {"react-jsx" : 3},

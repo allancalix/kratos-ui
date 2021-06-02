@@ -9,6 +9,7 @@ var Kratos = require("../Bindings/Kratos.bs.js");
 var Js_dict = require("rescript/lib/js/js_dict.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
+var DynamicInputList = require("../Components/DynamicInputList.bs.js");
 var KratosClient = require("@ory/kratos-client");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
@@ -17,22 +18,6 @@ var opts = {
 };
 
 var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
-
-function renderInputs(fields) {
-  return fields.map(function (field) {
-              return React.createElement(React.Fragment, undefined, React.createElement("label", {
-                              key: field.name,
-                              className: "sr-only"
-                            }, field.type !== "hidden" ? field.name : ""), React.createElement("input", {
-                              defaultValue: field.value,
-                              className: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-                              name: field.name,
-                              placeholder: field.name,
-                              required: field.required,
-                              type: field.type
-                            }));
-            });
-}
 
 function renderMessages(messages) {
   if (messages !== undefined) {
@@ -96,7 +81,9 @@ function Login(Props) {
                             method: method.config.method
                           }, React.createElement("div", {
                                 className: "mt-8 space-y-6"
-                              }, renderInputs(method.config.fields)), React.createElement("div", {
+                              }, React.createElement(DynamicInputList.make, {
+                                    fields: method.config.fields
+                                  })), React.createElement("div", {
                                 className: "flex items-center justify-between"
                               }, React.createElement("div", {
                                     className: "text-sm"
@@ -117,7 +104,6 @@ var make = Login;
 exports.selfServeEndpoint = selfServeEndpoint;
 exports.opts = opts;
 exports.api = api;
-exports.renderInputs = renderInputs;
 exports.renderMessages = renderMessages;
 exports.make = make;
 /* api Not a pure module */
