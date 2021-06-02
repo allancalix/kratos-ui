@@ -62,4 +62,4 @@ export {
   make ,
   
 }
-/* react Not a pure module */
+/* XHR Not a pure module */

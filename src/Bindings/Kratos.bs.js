@@ -9,11 +9,14 @@ var registrationSelfServeEndpoint = basePath + "/self-service/registration/brows
 
 var logoutSelfServeEndpoint = basePath + "/self-service/browser/flows/logout";
 
+var whoamiEndpoint = basePath + "/sessions/whoami";
+
 export {
   basePath ,
   loginSelfServeEndpoint ,
   registrationSelfServeEndpoint ,
   logoutSelfServeEndpoint ,
+  whoamiEndpoint ,
   
 }
 /* basePath Not a pure module */

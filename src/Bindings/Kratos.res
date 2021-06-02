@@ -8,7 +8,7 @@ let registrationSelfServeEndpoint = `${basePath}/self-service/registration/brows
 
 let logoutSelfServeEndpoint = `${basePath}/self-service/browser/flows/logout`
 
-let whoamiEndpoint = `${basePath}/sessions/whoami`,
+let whoamiEndpoint = `${basePath}/sessions/whoami`
 
 type options = {
   basePath: string,
