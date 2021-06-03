@@ -1,5 +1,3 @@
-@val external window: {..} = "window"
-
 let selfServeEndpoint = Kratos.loginSelfServeEndpoint
 
 let opts: Kratos.options = { basePath: Kratos.basePath}
@@ -31,7 +29,14 @@ let make = () => {
           setMethods(_prev => Some(res.data.ui))
         })
       }
-      | None => window["location"]["href"] = selfServeEndpoint
+      | None => {
+        switch Window.redirect(selfServeEndpoint) {
+          | Ok(_) => Js.log("Window location set but page redirect failed.")
+          | Error(e) => switch e {
+            | _ => Js.log(e)
+          }
+        }
+      }
     }
     None
   })

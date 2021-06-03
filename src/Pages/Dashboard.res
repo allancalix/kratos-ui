@@ -1,7 +1,10 @@
-@val external window: {..} = "window"
-
 let signOut = () => {
-  window["location"]["href"] = Kratos.logoutSelfServeEndpoint
+  switch Window.redirect(Kratos.logoutSelfServeEndpoint) {
+    | Ok(_) => Js.log("Window location set but page redirect failed.")
+    | Error(e) => switch e {
+      | _ => Js.log(e)
+    }
+  }
 }
 
 let opts: Kratos.options = { basePath: Kratos.basePath}

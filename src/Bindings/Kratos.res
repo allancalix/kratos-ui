@@ -213,17 +213,17 @@ type responseErr = {
   response: response<error>,
 }
 
-@bs.new @module("@ory/kratos-client") external makeConfiguration: options => configuration = "Configuration"
-@bs.new @module("@ory/kratos-client") external makePublicAPI: configuration => publicAPI = "PublicApi"
-@bs.send external getSelfServiceRecoveryFlow: (publicAPI, string) =>
+@new @module("@ory/kratos-client") external makeConfiguration: options => configuration = "Configuration"
+@new @module("@ory/kratos-client") external makePublicAPI: configuration => publicAPI = "PublicApi"
+@send external getSelfServiceRecoveryFlow: (publicAPI, string) =>
   Promise.t<recoveryFlowResponse> = "getSelfServiceRecoveryFlow"
 
-@bs.send external getSelfServiceLoginFlow: (publicAPI, string) =>
+@send external getSelfServiceLoginFlow: (publicAPI, string) =>
   Promise.t<response<loginFlow>> = "getSelfServiceLoginFlow"
 
-@bs.send external getSelfServiceRegistrationFlow: (publicAPI, string) =>
+@send external getSelfServiceRegistrationFlow: (publicAPI, string) =>
   Promise.t<response<registrationFlow>> = "getSelfServiceRegistrationFlow"
 
-@bs.send
+@send
 external toSession: (publicAPI, option<string>, option<requestOpts>) =>
   Promise.Js.t<response<session>, responseErr> = "toSession"
