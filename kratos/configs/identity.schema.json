@@ -10,7 +10,7 @@
         "email": {
           "type": "string",
           "format": "email",
-          "title": "E-Mail",
+          "title": "Email",
           "minLength": 3,
           "ory.sh/kratos": {
             "credentials": {
@@ -30,9 +30,11 @@
           "type": "object",
           "properties": {
             "first": {
+              "title": "First Name",
               "type": "string"
             },
             "last": {
+              "title": "Last Name",
               "type": "string"
             }
           }

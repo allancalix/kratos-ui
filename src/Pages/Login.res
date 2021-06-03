@@ -8,19 +8,10 @@ let api = opts
 |> Kratos.makeConfiguration
 |> Kratos.makePublicAPI
 
-let renderMessages = (messages: option<Kratos.messageList>) => {
-  let messages = switch messages {
-    | Some(m) => m
-    | None => []
-  }
-
-  messages
-}
-
 @react.component
 let make = () => {
   let url = RescriptReactRouter.useUrl()
-  let (methods, setMethods) = React.useState(_ => Js.Dict.empty());
+  let (methods, setMethods) = React.useState(_ => None);
 
   React.useEffect0(() => {
     switch url -> Url.parseSearchParams -> Belt.Map.get("flow") {
@@ -33,10 +24,11 @@ let make = () => {
           Promise.Js.rejected(err)
         })
         -> Promise.get(res => {
+          Js.log(res)
           if res.status !== 200 {
             RescriptReactRouter.push(Route.login)
           }
-          setMethods(_prev => res.data.methods)
+          setMethods(_prev => Some(res.data.ui))
         })
       }
       | None => window["location"]["href"] = selfServeEndpoint
@@ -44,7 +36,7 @@ let make = () => {
     None
   })
 
-  let loginForms = methods->Js.Dict.values->Js.Array2.map((method) => {
+  let loginForms = (container: Kratos.uiContainer) =>
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
@@ -59,12 +51,16 @@ let make = () => {
           </p>
         </div>
         {
-          React.array(method.config.messages -> renderMessages -> Js.Array2.map((m) => {
-            <p key={m.id -> Belt.Int.toString}>{React.string(m.text)}</p>
-          }))
+          switch container.messages {
+            | Some(m) =>
+              React.array(m -> Js.Array2.map((m) => {
+                <p key={m.id -> Belt.Int.toString}>{React.string(m.text)}</p>
+              }))
+            | None => React.null
+          }
         }
         <Form
-          method={method}
+          ui={container}
           submitButtonLabel={Messages.Login.submitButtonLabel}>
               <a className="font-medium text-indigo-600 hover:text-indigo-500">
                 {React.string(Messages.Login.forgotPasswordLabel)}
@@ -72,9 +68,13 @@ let make = () => {
         </Form>
     </div>
   </div>
-  })
 
   <div>
-    {React.array(loginForms)}
+    {
+      switch methods {
+      | Some(m) => loginForms(m)
+      | None => React.null
+      }
+    }
   </div>
 }
