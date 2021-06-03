@@ -4,13 +4,19 @@
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var Kratos = require("../Bindings/Kratos.bs.js");
+var $$Window = require("../Bindings/Window.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var DynamicInput = require("../Components/DynamicInput.bs.js");
 var KratosClient = require("@ory/kratos-client");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
 function signOut(param) {
-  window.location.href = Kratos.logoutSelfServeEndpoint;
+  var e = $$Window.redirect(Kratos.logoutSelfServeEndpoint);
+  if (e.TAG === /* Ok */0) {
+    console.log("Window location set but page redirect failed.");
+    return ;
+  }
+  console.log(e._0);
   
 }
 

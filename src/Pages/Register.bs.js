@@ -7,6 +7,7 @@ var Curry = require("rescript/lib/js/curry.js");
 var Route = require("./Route.bs.js");
 var React = require("react");
 var Kratos = require("../Bindings/Kratos.bs.js");
+var $$Window = require("../Bindings/Window.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
@@ -51,7 +52,12 @@ function Register(Props) {
                                 }));
                   }));
           } else {
-            window.location.href = Kratos.registrationSelfServeEndpoint;
+            var e = $$Window.redirect(Kratos.registrationSelfServeEndpoint);
+            if (e.TAG === /* Ok */0) {
+              console.log("Window location set but page redirect failed.");
+            } else {
+              console.log(e._0);
+            }
           }
           
         }), []);
