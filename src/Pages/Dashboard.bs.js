@@ -5,6 +5,7 @@ var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
 var Kratos = require("../Bindings/Kratos.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
+var DynamicInput = require("../Components/DynamicInput.bs.js");
 var KratosClient = require("@ory/kratos-client");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
@@ -48,9 +49,14 @@ function Dashboard(Props) {
                     className: "min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
                   }, React.createElement("div", {
                         className: "max-w-md w-full space-y-8"
-                      }, React.createElement("h1", {
-                            className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
-                          }, "Hello " + identity.id + "!")), React.createElement("div", {
+                      }, React.createElement(DynamicInput.NonStandardProps.make, {
+                            props: {
+                              "data-testid": "greeting"
+                            },
+                            children: React.createElement("h1", {
+                                  className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
+                                }, "Hello " + identity.id + "!")
+                          })), React.createElement("div", {
                         className: "mt-8 space-y-6"
                       }, React.createElement("button", {
                             className: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
