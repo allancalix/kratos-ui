@@ -68,9 +68,7 @@ let make = () => {
             | None => React.null
           }
         }
-        <Form
-          ui={container}
-          submitButtonLabel={Messages.Registration.submitButtonLabel}></Form>
+        <Form ui={container} />
     </div>
   </div>
 

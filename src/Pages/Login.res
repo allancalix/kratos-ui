@@ -59,9 +59,7 @@ let make = () => {
             | None => React.null
           }
         }
-        <Form
-          ui={container}
-          submitButtonLabel={Messages.Login.submitButtonLabel}>
+        <Form ui={container}>
               <a className="font-medium text-indigo-600 hover:text-indigo-500">
                 {React.string(Messages.Login.forgotPasswordLabel)}
               </a>

@@ -18,28 +18,45 @@ Jest.describe("DynamicInputComponent", (function (param) {
           type: "password",
           value: undefined
         };
-        Jest.test("when type is not hidden type then matches expected", (function (param) {
+        var node_message = [];
+        var node_meta = {
+          label: undefined
+        };
+        var node = {
+          attributes: attrs,
+          group: "password",
+          message: node_message,
+          meta: node_meta,
+          type: "input"
+        };
+        var metaWithLabel = {
+          label: {
+            context: undefined,
+            id: 10,
+            text: "Cool Label",
+            type: "info"
+          }
+        };
+        Jest.test("when label is provided then matches expected", (function (param) {
                 return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                        attributes: attrs
-                                      })).container));
-              }));
-        Jest.test("when type is hidden then matches snapshot", (function (param) {
-                return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                        attributes: {
-                                          disabled: false,
-                                          label: undefined,
-                                          name: "password",
-                                          pattern: undefined,
-                                          required: true,
-                                          type: "hidden",
-                                          value: undefined
+                                        node: {
+                                          attributes: attrs,
+                                          group: "password",
+                                          message: node_message,
+                                          meta: metaWithLabel,
+                                          type: "input"
                                         }
                                       })).container));
               }));
-        return Jest.test("when type is not hidden then has visible label", (function (param) {
+        Jest.test("when no label is provided then matches snapshot", (function (param) {
+                return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
+                                        node: node
+                                      })).container));
+              }));
+        return Jest.test("when label is provided then has visible label", (function (param) {
                       var partial_arg = {
                         NAME: "Str",
-                        VAL: "password"
+                        VAL: "Cool Label"
                       };
                       var arg = function (param) {
                         return JestDom.toHaveTextContent(partial_arg, param);
@@ -52,7 +69,13 @@ Jest.describe("DynamicInputComponent", (function (param) {
                         return ReactTestingLibrary.getByTestId(partial_arg$1, param, param$1);
                       };
                       return Curry._2(arg, undefined, expect(Curry._2(arg$1, undefined, ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                                  attributes: attrs
+                                                  node: {
+                                                    attributes: attrs,
+                                                    group: "password",
+                                                    message: node_message,
+                                                    meta: metaWithLabel,
+                                                    type: "input"
+                                                  }
                                                 })))));
                     }));
       }));
