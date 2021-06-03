@@ -10,7 +10,7 @@ function DynamicInputList(Props) {
               var match = node.type;
               if (match === "input") {
                 return React.createElement(DynamicInput.make, {
-                            attributes: node.attributes
+                            node: node
                           });
               } else {
                 return null;

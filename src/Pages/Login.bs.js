@@ -69,7 +69,6 @@ function Login(Props) {
                                     }, m.text);
                         }) : null, React.createElement(Form.make, {
                         ui: container,
-                        submitButtonLabel: Messages.Login.submitButtonLabel,
                         children: React.createElement("a", {
                               className: "font-medium text-indigo-600 hover:text-indigo-500"
                             }, Messages.Login.forgotPasswordLabel)

@@ -1,7 +1,6 @@
 @react.component
 let make = (
   ~ui: Kratos.uiContainer,
-  ~submitButtonLabel: string,
   ~children: React.element=React.null) =>
         <form className="mt-8 space-y-6" action={ui.action} method={ui.method}>
           <div className="mt-8 space-y-6">

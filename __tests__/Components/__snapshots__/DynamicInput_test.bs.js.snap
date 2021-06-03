@@ -1,30 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`DynamicInputComponent when type is hidden then matches snapshot 1`] = `
-<div>
-  <input
-    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-    name="password"
-    placeholder="password"
-    required=""
-    type="hidden"
-    value=""
-  />
-</div>
-`;
-
-exports[`DynamicInputComponent when type is not hidden type then matches expected 1`] = `
+exports[`DynamicInputComponent when label is provided then matches expected 1`] = `
 <div>
   <label
     class="sr-only"
     data-testid="label"
   >
-    password
+    Cool Label
   </label>
   <input
     class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
     name="password"
-    placeholder="password"
+    placeholder="Cool Label"
+    required=""
+    type="password"
+    value=""
+  />
+</div>
+`;
+
+exports[`DynamicInputComponent when no label is provided then matches snapshot 1`] = `
+<div>
+  <input
+    class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+    name="password"
+    placeholder=""
     required=""
     type="password"
     value=""

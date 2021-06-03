@@ -76,8 +76,7 @@ function Register(Props) {
                                       key: String(m.id)
                                     }, m.text);
                         }) : null, React.createElement(Form.make, {
-                        ui: methods,
-                        submitButtonLabel: Messages.Registration.submitButtonLabel
+                        ui: methods
                       })));
   } else {
     return null;

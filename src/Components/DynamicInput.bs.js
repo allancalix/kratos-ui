@@ -4,10 +4,6 @@
 var React = require("react");
 var Belt_Option = require("rescript/lib/js/belt_Option.js");
 
-function shouldShowLabel(t) {
-  return t !== "hidden";
-}
-
 function DynamicInput$NonStandardProps(Props) {
   return React.cloneElement(Props.children, Props.props);
 }
@@ -22,22 +18,25 @@ var submitClasses = "group relative w-full flex justify-center py-2 px-4 border 
 
 function DynamicInput$InputField(Props) {
   var attributes = Props.attributes;
+  var placeholderOpt = Props.placeholder;
+  var submitButtonLabel = Props.submitButtonLabel;
+  var placeholder = placeholderOpt !== undefined ? placeholderOpt : "";
   var match = attributes.type;
   if (match === "submit") {
     return React.createElement("button", {
                 className: submitClasses,
                 name: attributes.name,
-                placeholder: attributes.name,
+                placeholder: placeholder,
                 required: Belt_Option.getWithDefault(attributes.required, false),
                 type: attributes.type,
                 value: Belt_Option.getWithDefault(attributes.value, "")
-              }, "Submit");
+              }, Belt_Option.getWithDefault(submitButtonLabel, "Submit"));
   } else {
     return React.createElement("input", {
                 defaultValue: Belt_Option.getWithDefault(attributes.value, ""),
                 className: defaultClasses,
                 name: attributes.name,
-                placeholder: attributes.name,
+                placeholder: placeholder,
                 required: Belt_Option.getWithDefault(attributes.required, false),
                 type: attributes.type
               });
@@ -49,23 +48,31 @@ var InputField = {
 };
 
 function DynamicInput(Props) {
-  var attributes = Props.attributes;
-  return React.createElement(React.Fragment, undefined, attributes.type !== "hidden" ? React.createElement(DynamicInput$NonStandardProps, {
+  var node = Props.node;
+  var label = node.meta.label;
+  if (label !== undefined) {
+    return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$NonStandardProps, {
                     props: {
                       "data-testid": "label"
                     },
                     children: React.createElement("label", {
-                          key: attributes.name,
+                          key: label.id.toString(),
                           className: "sr-only"
-                        }, attributes.name)
-                  }) : null, React.createElement(DynamicInput$InputField, {
-                  attributes: attributes
-                }));
+                        }, label.text)
+                  }), React.createElement(DynamicInput$InputField, {
+                    attributes: node.attributes,
+                    placeholder: label.text,
+                    submitButtonLabel: label.text
+                  }));
+  } else {
+    return React.createElement(DynamicInput$InputField, {
+                attributes: node.attributes
+              });
+  }
 }
 
 var make = DynamicInput;
 
-exports.shouldShowLabel = shouldShowLabel;
 exports.NonStandardProps = NonStandardProps;
 exports.defaultClasses = defaultClasses;
 exports.submitClasses = submitClasses;
