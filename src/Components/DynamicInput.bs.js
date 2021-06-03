@@ -23,22 +23,32 @@ function DynamicInput$InputField(Props) {
   var placeholder = placeholderOpt !== undefined ? placeholderOpt : "";
   var match = attributes.type;
   if (match === "submit") {
-    return React.createElement("button", {
-                className: submitClasses,
-                name: attributes.name,
-                placeholder: placeholder,
-                required: Belt_Option.getWithDefault(attributes.required, false),
-                type: attributes.type,
-                value: Belt_Option.getWithDefault(attributes.value, "")
-              }, Belt_Option.getWithDefault(submitButtonLabel, "Submit"));
+    return React.createElement(DynamicInput$NonStandardProps, {
+                props: {
+                  "data-testid": attributes.type
+                },
+                children: React.createElement("button", {
+                      className: submitClasses,
+                      name: attributes.name,
+                      placeholder: placeholder,
+                      required: Belt_Option.getWithDefault(attributes.required, false),
+                      type: attributes.type,
+                      value: Belt_Option.getWithDefault(attributes.value, "")
+                    }, Belt_Option.getWithDefault(submitButtonLabel, "Submit"))
+              });
   } else {
-    return React.createElement("input", {
-                defaultValue: Belt_Option.getWithDefault(attributes.value, ""),
-                className: defaultClasses,
-                name: attributes.name,
-                placeholder: placeholder,
-                required: Belt_Option.getWithDefault(attributes.required, false),
-                type: attributes.type
+    return React.createElement(DynamicInput$NonStandardProps, {
+                props: {
+                  "data-testid": attributes.name
+                },
+                children: React.createElement("input", {
+                      defaultValue: Belt_Option.getWithDefault(attributes.value, ""),
+                      className: defaultClasses,
+                      name: attributes.name,
+                      placeholder: placeholder,
+                      required: Belt_Option.getWithDefault(attributes.required, false),
+                      type: attributes.type
+                    })
               });
   }
 }
