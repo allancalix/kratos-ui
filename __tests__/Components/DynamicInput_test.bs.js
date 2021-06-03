@@ -9,24 +9,30 @@ var DynamicInput = require("../../src/Components/DynamicInput.bs.js");
 var ReactTestingLibrary = require("@rescriptbr/react-testing-library/src/ReactTestingLibrary.bs.js");
 
 Jest.describe("DynamicInputComponent", (function (param) {
-        var field = {
+        var attrs = {
+          disabled: false,
+          label: undefined,
           name: "password",
+          pattern: undefined,
           required: true,
           type: "password",
-          value: ""
+          value: undefined
         };
         Jest.test("when type is not hidden type then matches expected", (function (param) {
                 return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                        field: field
+                                        attributes: attrs
                                       })).container));
               }));
         Jest.test("when type is hidden then matches snapshot", (function (param) {
                 return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                        field: {
+                                        attributes: {
+                                          disabled: false,
+                                          label: undefined,
                                           name: "password",
+                                          pattern: undefined,
                                           required: true,
                                           type: "hidden",
-                                          value: ""
+                                          value: undefined
                                         }
                                       })).container));
               }));
@@ -46,7 +52,7 @@ Jest.describe("DynamicInputComponent", (function (param) {
                         return ReactTestingLibrary.getByTestId(partial_arg$1, param, param$1);
                       };
                       return Curry._2(arg, undefined, expect(Curry._2(arg$1, undefined, ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                                  field: field
+                                                  attributes: attrs
                                                 })))));
                     }));
       }));

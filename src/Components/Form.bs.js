@@ -6,26 +6,22 @@ var Caml_option = require("rescript/lib/js/caml_option.js");
 var DynamicInputList = require("./DynamicInputList.bs.js");
 
 function Form(Props) {
-  var method = Props.method;
-  var submitButtonLabel = Props.submitButtonLabel;
+  var ui = Props.ui;
   var childrenOpt = Props.children;
   var children = childrenOpt !== undefined ? Caml_option.valFromOption(childrenOpt) : null;
   return React.createElement("form", {
               className: "mt-8 space-y-6",
-              action: method.config.action,
-              method: method.config.method
+              action: ui.action,
+              method: ui.method
             }, React.createElement("div", {
                   className: "mt-8 space-y-6"
                 }, React.createElement(DynamicInputList.make, {
-                      fields: method.config.fields
+                      nodes: ui.nodes
                     })), React.createElement("div", {
                   className: "flex items-center justify-between"
                 }, React.createElement("div", {
                       className: "text-sm"
-                    }, children)), React.createElement("div", undefined, React.createElement("button", {
-                      className: "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
-                      type: "submit"
-                    }, submitButtonLabel)));
+                    }, children)), React.createElement("div", undefined));
 }
 
 var make = Form;

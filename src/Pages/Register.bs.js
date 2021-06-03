@@ -7,7 +7,6 @@ var Curry = require("rescript/lib/js/curry.js");
 var Route = require("./Route.bs.js");
 var React = require("react");
 var Kratos = require("../Bindings/Kratos.bs.js");
-var Js_dict = require("rescript/lib/js/js_dict.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
@@ -31,9 +30,10 @@ function renderMessages(messages) {
 function Register(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = React.useState(function () {
-        return {};
+        
       });
   var setMethods = match[1];
+  var methods = match[0];
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
@@ -44,10 +44,10 @@ function Register(Props) {
                       })), (function (res) {
                     console.log(res);
                     if (res.status !== 200) {
-                      RescriptReactRouter.push(Route.register);
+                      RescriptReactRouter.push(Route.login);
                     }
                     return Curry._1(setMethods, (function (_prev) {
-                                  return res.data.methods;
+                                  return res.data.ui;
                                 }));
                   }));
           } else {
@@ -55,26 +55,33 @@ function Register(Props) {
           }
           
         }), []);
-  var loginForms = Js_dict.values(match[0]).map(function (method) {
-        var messages = method.config.messages;
-        return React.createElement("div", undefined, React.createElement("div", undefined, (
-                          messages !== undefined ? messages : []
-                        ).map(function (m) {
-                            return React.createElement("p", {
-                                        key: String(m.id)
-                                      }, m.text);
-                          })), React.createElement(Form.make, {
-                        method: method,
-                        submitButtonLabel: Messages.Login.submitButtonLabel
-                      }));
-      });
-  return React.createElement("div", {
-              className: "min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
-            }, React.createElement("div", {
-                  className: "max-w-md w-full space-y-8"
-                }, React.createElement("div", undefined, React.createElement("h1", {
-                          className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
-                        }, Messages.Registration.submitButtonLabel)), loginForms));
+  if (methods !== undefined) {
+    var m = methods.messages;
+    return React.createElement("div", {
+                className: "min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8"
+              }, React.createElement("div", {
+                    className: "max-w-md w-full space-y-8"
+                  }, React.createElement("div", undefined, React.createElement("h2", {
+                            className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
+                          }, Messages.Registration.title), React.createElement("p", {
+                            className: "mt-2 text-center text-sm text-gray-600"
+                          }, "Or ", React.createElement("a", {
+                                className: "font-medium text-indigo-600 hover:text-indigo-500",
+                                href: "#",
+                                onClick: (function (param) {
+                                    return RescriptReactRouter.push(Route.register);
+                                  })
+                              }, "register"))), m !== undefined ? m.map(function (m) {
+                          return React.createElement("p", {
+                                      key: String(m.id)
+                                    }, m.text);
+                        }) : null, React.createElement(Form.make, {
+                        ui: methods,
+                        submitButtonLabel: Messages.Registration.submitButtonLabel
+                      })));
+  } else {
+    return null;
+  }
 }
 
 var selfServeEndpoint = Kratos.registrationSelfServeEndpoint;

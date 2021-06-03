@@ -5,11 +5,16 @@ var React = require("react");
 var DynamicInput = require("./DynamicInput.bs.js");
 
 function DynamicInputList(Props) {
-  var fields = Props.fields;
-  return fields.map(function (field) {
-              return React.createElement(DynamicInput.make, {
-                          field: field
-                        });
+  var nodes = Props.nodes;
+  return nodes.map(function (node) {
+              var match = node.type;
+              if (match === "input") {
+                return React.createElement(DynamicInput.make, {
+                            attributes: node.attributes
+                          });
+              } else {
+                return null;
+              }
             });
 }
 

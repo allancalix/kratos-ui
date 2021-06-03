@@ -23,7 +23,7 @@ selfservice:
       ui_url: http://127.0.0.1:3000/error
     login:
       ui_url: http://127.0.0.1:3000/login
-      lifespan: 10m
+      lifespan: 30m
     recovery:
       enabled: true
       ui_url: http://127.0.0.1:3000/recovery
@@ -31,7 +31,7 @@ selfservice:
         default_browser_return_url: http://127.0.0.1:3000/login
     registration:
       ui_url: http://127.0.0.1:3000/register
-      lifespan: 10m
+      lifespan: 30m
       after:
         password:
           hooks:
@@ -77,14 +77,6 @@ secrets:
   cookie:
     - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
 
-hashers:
-  argon2:
-    parallelism: 1
-    memory: 131072
-    iterations: 2
-    salt_length: 16
-    key_length: 16
-
 session:
   lifespan: 24h
   cookie:
@@ -92,6 +84,5 @@ session:
     same_site: Lax
 
 log:
-  level: debug
-  format: json
+  level: trace
   leak_sensitive_values: true

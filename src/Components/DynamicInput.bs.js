@@ -2,6 +2,7 @@
 'use strict';
 
 var React = require("react");
+var Belt_Option = require("rescript/lib/js/belt_Option.js");
 
 function shouldShowLabel(t) {
   return t !== "hidden";
@@ -15,23 +16,50 @@ var NonStandardProps = {
   make: DynamicInput$NonStandardProps
 };
 
+var defaultClasses = "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm";
+
+var submitClasses = "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
+
+function DynamicInput$InputField(Props) {
+  var attributes = Props.attributes;
+  var match = attributes.type;
+  if (match === "submit") {
+    return React.createElement("button", {
+                className: submitClasses,
+                name: attributes.name,
+                placeholder: attributes.name,
+                required: Belt_Option.getWithDefault(attributes.required, false),
+                type: attributes.type,
+                value: Belt_Option.getWithDefault(attributes.value, "")
+              }, "Submit");
+  } else {
+    return React.createElement("input", {
+                defaultValue: Belt_Option.getWithDefault(attributes.value, ""),
+                className: defaultClasses,
+                name: attributes.name,
+                placeholder: attributes.name,
+                required: Belt_Option.getWithDefault(attributes.required, false),
+                type: attributes.type
+              });
+  }
+}
+
+var InputField = {
+  make: DynamicInput$InputField
+};
+
 function DynamicInput(Props) {
-  var field = Props.field;
-  return React.createElement(React.Fragment, undefined, field.type !== "hidden" ? React.createElement(DynamicInput$NonStandardProps, {
+  var attributes = Props.attributes;
+  return React.createElement(React.Fragment, undefined, attributes.type !== "hidden" ? React.createElement(DynamicInput$NonStandardProps, {
                     props: {
                       "data-testid": "label"
                     },
                     children: React.createElement("label", {
-                          key: field.name,
+                          key: attributes.name,
                           className: "sr-only"
-                        }, field.name)
-                  }) : null, React.createElement("input", {
-                  defaultValue: field.value,
-                  className: "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm",
-                  name: field.name,
-                  placeholder: field.name,
-                  required: field.required,
-                  type: field.type
+                        }, attributes.name)
+                  }) : null, React.createElement(DynamicInput$InputField, {
+                  attributes: attributes
                 }));
 }
 
@@ -39,5 +67,8 @@ var make = DynamicInput;
 
 exports.shouldShowLabel = shouldShowLabel;
 exports.NonStandardProps = NonStandardProps;
+exports.defaultClasses = defaultClasses;
+exports.submitClasses = submitClasses;
+exports.InputField = InputField;
 exports.make = make;
 /* react Not a pure module */

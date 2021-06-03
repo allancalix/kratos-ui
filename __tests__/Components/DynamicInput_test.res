@@ -4,15 +4,18 @@ open JestDom
 describe("DynamicInputComponent", () => {
     open ReactTestingLibrary
 
-    let field: Kratos.inputField = {
+    let attrs: Kratos.uiNodeInputAttributes = {
       name: "password",
-      required: true,
+      required: Some(true),
       \"type": "password",
-      value: "",
+      value: None,
+      disabled: false,
+      pattern: None,
+      label: None,
     }
 
     test("when type is not hidden type then matches expected", () =>
-      <DynamicInput field={field} />
+      <DynamicInput attributes={attrs} />
         -> render
         |> container
         |> Expect.expect
@@ -20,7 +23,7 @@ describe("DynamicInputComponent", () => {
     )
 
     test("when type is hidden then matches snapshot", () =>
-      <DynamicInput field={{...field, \"type": "hidden"}} />
+      <DynamicInput attributes={{...attrs, \"type": "hidden"}} />
         -> render
         |> container
         |> Expect.expect
@@ -28,7 +31,7 @@ describe("DynamicInputComponent", () => {
     )
 
     test("when type is not hidden then has visible label", () =>
-      <DynamicInput field={field} />
+      <DynamicInput attributes={attrs} />
         |> render
         |> getByTestId(~matcher=#Str("label"))
         |> expect
