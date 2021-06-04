@@ -9,7 +9,7 @@ var DynamicInput = require("./DynamicInput.bs.js");
 
 function DynamicInputList(Props) {
   var nodes = Props.nodes;
-  return nodes.map(function (node) {
+  return nodes.map(function (node, i) {
               var attrs = Kratos.parseAttrs(node);
               if (typeof attrs === "number") {
                 return null;
@@ -18,7 +18,8 @@ function DynamicInputList(Props) {
               var tmp = {
                 name: attrs$1.name,
                 type: attrs$1.type,
-                required: Belt_Option.getWithDefault(attrs$1.required, false)
+                required: Belt_Option.getWithDefault(attrs$1.required, false),
+                key: String(i)
               };
               if (node.meta.label !== undefined) {
                 tmp.label = Caml_option.valFromOption(node.meta.label);

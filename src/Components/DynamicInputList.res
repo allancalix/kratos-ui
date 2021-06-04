@@ -1,10 +1,11 @@
 @react.component
 let make = (~nodes: array<Kratos.uiNode>) =>
   React.array(
-    nodes->Js.Array2.map(node => {
+    nodes->Js.Array2.mapi((node, i) => {
       switch node->Kratos.parseAttrs {
       | Kratos.UiNodeInputAttributes(attrs) =>
         <DynamicInput
+          key={i -> Belt.Int.toString}
           name={attrs.name}
           \"type"={attrs.\"type"}
           label=?node.meta.label
