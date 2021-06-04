@@ -8,41 +8,62 @@ let submitClasses = "group relative w-full flex justify-center py-2 px-4 border 
 
 module InputField = {
   @react.component
-  let make = (~attributes: Kratos.uiNodeInputAttributes, ~placeholder: string="", ~submitButtonLabel=?) => switch attributes.\"type" {
-    | "submit" => <NonStandardProps props={"data-testid": attributes.\"type"}>
+  let make = (
+    ~name,
+    ~\"type",
+    ~required,
+    ~value: option<Kratos.uiNodeInputAttributesValue>,
+    ~placeholder=?,
+    ~buttonText=?,
+  ) =>
+    switch \"type" {
+    | "submit" =>
+      <NonStandardProps props={"data-testid": \"type"}>
         <button
-            className={submitClasses}
-            name={attributes.name}
-            value={attributes.value -> Belt.Option.getWithDefault("")}
-            placeholder={placeholder}
-            type_={attributes.\"type"}
-            required={attributes.required -> Belt.Option.getWithDefault(false)}>
-            {React.string(submitButtonLabel -> Belt.Option.getWithDefault("Submit"))}
-            </button>
+          className={submitClasses}
+          name={name}
+          value={value->Belt.Option.getWithDefault("")}
+          placeholder={placeholder->Belt.Option.getWithDefault("")}
+          type_={\"type"}
+          required={required}>
+          {React.string(buttonText->Belt.Option.getWithDefault("Submit"))}
+        </button>
       </NonStandardProps>
-    | _ => <NonStandardProps props={"data-testid": attributes.name}>
-      <input
+    | _ =>
+      <NonStandardProps props={"data-testid": name}>
+        <input
           className={defaultClasses}
-          name={attributes.name}
-          defaultValue={attributes.value -> Belt.Option.getWithDefault("")}
-          placeholder={placeholder}
-          type_={attributes.\"type"}
-          required={attributes.required -> Belt.Option.getWithDefault(false)}/>
-    </NonStandardProps>
-  }
+          name={name}
+          defaultValue={value->Belt.Option.getWithDefault("")}
+          placeholder={placeholder->Belt.Option.getWithDefault("")}
+          type_={\"type"}
+          required={required}
+        />
+      </NonStandardProps>
+    }
 }
 
 @react.component
-let make = (~node: Kratos.uiNode) => switch node.meta.label {
-  | Some(label) => {
-    <>
+let make = (
+  ~name,
+  ~\"type",
+  ~label: option<Kratos.uiText>=?,
+  ~value: option<Kratos.uiNodeInputAttributesValue>=?,
+  ~required=false,
+) =>
+  switch label {
+  | Some(l) => <>
       <NonStandardProps props={"data-testid": "label"}>
-        <label key={Js.Int.toString(label.id)} className="sr-only">
-          {React.string(label.text)}
-        </label>
+        <label key={Js.Int.toString(l.id)} className="sr-only"> {React.string(l.text)} </label>
       </NonStandardProps>
-      <InputField attributes={node.attributes} placeholder={label.text} submitButtonLabel={label.text} />
+      <InputField
+        name={name}
+        \"type"={\"type"}
+        placeholder={l.text}
+        value={value}
+        required={required}
+        buttonText={l.text}
+      />
     </>
+  | None => <InputField name={name} \"type"={\"type"} value={value} required={required} />
   }
-  | None => <InputField attributes={node.attributes} />
-}

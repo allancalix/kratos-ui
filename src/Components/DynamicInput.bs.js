@@ -17,37 +17,38 @@ var defaultClasses = "appearance-none rounded-none relative block w-full px-3 py
 var submitClasses = "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
 
 function DynamicInput$InputField(Props) {
-  var attributes = Props.attributes;
-  var placeholderOpt = Props.placeholder;
-  var submitButtonLabel = Props.submitButtonLabel;
-  var placeholder = placeholderOpt !== undefined ? placeholderOpt : "";
-  var match = attributes.type;
-  if (match === "submit") {
+  var name = Props.name;
+  var type = Props.type;
+  var required = Props.required;
+  var value = Props.value;
+  var placeholder = Props.placeholder;
+  var buttonText = Props.buttonText;
+  if (type === "submit") {
     return React.createElement(DynamicInput$NonStandardProps, {
                 props: {
-                  "data-testid": attributes.type
+                  "data-testid": type
                 },
                 children: React.createElement("button", {
                       className: submitClasses,
-                      name: attributes.name,
-                      placeholder: placeholder,
-                      required: Belt_Option.getWithDefault(attributes.required, false),
-                      type: attributes.type,
-                      value: Belt_Option.getWithDefault(attributes.value, "")
-                    }, Belt_Option.getWithDefault(submitButtonLabel, "Submit"))
+                      name: name,
+                      placeholder: Belt_Option.getWithDefault(placeholder, ""),
+                      required: required,
+                      type: type,
+                      value: Belt_Option.getWithDefault(value, "")
+                    }, Belt_Option.getWithDefault(buttonText, "Submit"))
               });
   } else {
     return React.createElement(DynamicInput$NonStandardProps, {
                 props: {
-                  "data-testid": attributes.name
+                  "data-testid": name
                 },
                 children: React.createElement("input", {
-                      defaultValue: Belt_Option.getWithDefault(attributes.value, ""),
+                      defaultValue: Belt_Option.getWithDefault(value, ""),
                       className: defaultClasses,
-                      name: attributes.name,
-                      placeholder: placeholder,
-                      required: Belt_Option.getWithDefault(attributes.required, false),
-                      type: attributes.type
+                      name: name,
+                      placeholder: Belt_Option.getWithDefault(placeholder, ""),
+                      required: required,
+                      type: type
                     })
               });
   }
@@ -58,8 +59,12 @@ var InputField = {
 };
 
 function DynamicInput(Props) {
-  var node = Props.node;
-  var label = node.meta.label;
+  var name = Props.name;
+  var type = Props.type;
+  var label = Props.label;
+  var value = Props.value;
+  var requiredOpt = Props.required;
+  var required = requiredOpt !== undefined ? requiredOpt : false;
   if (label !== undefined) {
     return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$NonStandardProps, {
                     props: {
@@ -70,13 +75,19 @@ function DynamicInput(Props) {
                           className: "sr-only"
                         }, label.text)
                   }), React.createElement(DynamicInput$InputField, {
-                    attributes: node.attributes,
+                    name: name,
+                    type: type,
+                    required: required,
+                    value: value,
                     placeholder: label.text,
-                    submitButtonLabel: label.text
+                    buttonText: label.text
                   }));
   } else {
     return React.createElement(DynamicInput$InputField, {
-                attributes: node.attributes
+                name: name,
+                type: type,
+                required: required,
+                value: value
               });
   }
 }

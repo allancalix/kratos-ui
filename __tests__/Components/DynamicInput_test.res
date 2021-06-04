@@ -4,39 +4,28 @@ open JestDom
 describe("DynamicInputComponent", () => {
     open ReactTestingLibrary
 
-    let attrs: Kratos.uiNodeInputAttributes = {
-      name: "password",
-      required: Some(true),
-      \"type": "password",
-      value: None,
-      disabled: false,
-      pattern: None,
-      label: None,
-    }
+    let createComponent = () => 
+      <DynamicInput
+        name={"password"}
+        \"type"={"password"}
+        required={true} />
 
-    let node: Kratos.uiNode = {
-      attributes: attrs,
-      group: "password",
-      message: [],
-      meta: {
-        label: None
-      },
-      \"type": "input",
-    }
-
-    let label: Kratos.uiText = {
-      context: None,
-      id: 10,
-      text: "Cool Label",
-      \"type": "info",
-    }
-
-    let metaWithLabel: Kratos.meta = {
-      label: Some(label),
+    let createComponentWithLabel = () => {
+      let label: Kratos.uiText = {
+        context: None,
+        id: 10,
+        text: "Cool Label",
+        \"type": "info",
+      }
+      <DynamicInput
+      name={"password"}
+      \"type"={"password"}
+      label={label}
+      required={true} />
     }
 
     test("when label is provided then matches expected", () =>
-      <DynamicInput node={{...node, meta: metaWithLabel}} />
+      createComponentWithLabel()
         -> render
         |> container
         |> Expect.expect
@@ -44,7 +33,7 @@ describe("DynamicInputComponent", () => {
     )
 
     test("when no label is provided then matches snapshot", () =>
-      <DynamicInput node={node} />
+      createComponent()
         -> render
         |> container
         |> Expect.expect
@@ -52,7 +41,7 @@ describe("DynamicInputComponent", () => {
     )
 
     test("when label is provided then has visible label", () =>
-      <DynamicInput node={{...node, meta: metaWithLabel}} />
+      createComponentWithLabel()
         |> render
         |> getByTestId(~matcher=#Str("label"))
         |> expect
