@@ -2,12 +2,13 @@
   "name": "reason-trial",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "bundle": "NODE_ENV=production parcel build index.html --dist-dir public",
     "re:build": "rescript",
     "re:start": "rescript build -w",
     "serve": "parcel serve index.html -p 3000",
     "test": "npm run re:start && jest -v",
+    "test:e2e": "jest -c jest-e2e.config.js",
     "ci:test": "npm run re:build && jest -c jest-unit.config.js"
   },
   "author": "",

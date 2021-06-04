@@ -51,16 +51,6 @@ services:
       - '4437:4437'
     networks:
       - intranet
-  # frontend:
-  #   build: ../../frontend
-  #   ports:
-  #     - '3000:3000'
-  #   # environment:
-  #   #   - KRATOS_PUBLIC_URL=http://kratos:4433/
-  #   #   - KRATOS_ADMIN_URL=http://kratos:4434/
-  #   networks:
-  #     - intranet
-  #   # restart: on-failure
 
 networks:
   intranet:
