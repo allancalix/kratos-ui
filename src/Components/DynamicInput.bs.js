@@ -63,6 +63,24 @@ var InputField = {
   make: DynamicInput$InputField
 };
 
+function DynamicInput$Messages(Props) {
+  var messages = Props.messages;
+  if (messages !== undefined) {
+    return messages.map(function (msg) {
+                return React.createElement("span", {
+                            key: String(msg.id),
+                            className: "flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
+                          }, msg.text);
+              });
+  } else {
+    return null;
+  }
+}
+
+var Messages = {
+  make: DynamicInput$Messages
+};
+
 function hasErrorMessage(messages) {
   if (messages !== undefined) {
     return Belt_Option.isSome(Caml_option.undefined_to_opt(messages.find(function (m) {
@@ -82,6 +100,10 @@ function DynamicInput(Props) {
   var messages = Props.messages;
   var required = requiredOpt !== undefined ? requiredOpt : false;
   if (label !== undefined) {
+    var tmp = {};
+    if (messages !== undefined) {
+      tmp.messages = Caml_option.valFromOption(messages);
+    }
     return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$NonStandardProps, {
                     props: {
                       "data-testid": "label"
@@ -98,25 +120,18 @@ function DynamicInput(Props) {
                     placeholder: label.text,
                     hasError: hasErrorMessage(messages),
                     buttonText: label.text
-                  }), messages !== undefined ? messages.map(function (msg) {
-                      return React.createElement("span", {
-                                  key: String(msg.id),
-                                  className: "flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
-                                }, msg.text);
-                    }) : null);
-  } else {
-    return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$InputField, {
-                    name: name,
-                    type: type,
-                    required: required,
-                    value: value
-                  }), messages !== undefined ? messages.map(function (msg) {
-                      return React.createElement("span", {
-                                  key: String(msg.id),
-                                  className: "flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
-                                }, msg.text);
-                    }) : null);
+                  }), React.createElement(DynamicInput$Messages, tmp));
   }
+  var tmp$1 = {};
+  if (messages !== undefined) {
+    tmp$1.messages = Caml_option.valFromOption(messages);
+  }
+  return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$InputField, {
+                  name: name,
+                  type: type,
+                  required: required,
+                  value: value
+                }), React.createElement(DynamicInput$Messages, tmp$1));
 }
 
 var make = DynamicInput;
@@ -126,6 +141,7 @@ exports.defaultClasses = defaultClasses;
 exports.errorClasses = errorClasses;
 exports.submitClasses = submitClasses;
 exports.InputField = InputField;
+exports.Messages = Messages;
 exports.hasErrorMessage = hasErrorMessage;
 exports.make = make;
 /* react Not a pure module */

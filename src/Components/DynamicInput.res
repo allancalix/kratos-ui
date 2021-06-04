@@ -47,6 +47,21 @@ module InputField = {
     }
 }
 
+module Messages = {
+  @react.component
+  let make = (~messages: option<array<Kratos.uiText>>=?) =>
+    switch messages {
+      | Some(m) => React.array(m -> Js.Array2.map((msg) =>
+        <span
+        key={msg.id -> Belt.Int.toString}
+        className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+        {React.string(msg.text)}
+        </span>
+      ))
+      | None => React.null
+    }
+}
+
 let hasErrorMessage = (messages: option<array<Kratos.uiText>>) =>
   switch messages {
     | Some(m) =>
@@ -78,34 +93,12 @@ let make = (
         hasError={messages->hasErrorMessage}
         buttonText={l.text}
       />
-      {
-        switch messages {
-        | Some(m) => React.array(m -> Js.Array2.map((msg) =>
-          <span
-            key={msg.id -> Belt.Int.toString}
-            className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-            {React.string(msg.text)}
-          </span>
-        ))
-        | None => React.null
-        }
-      }
+      <Messages messages=?messages />
     </>
   | None =>
     <>
       <InputField name={name} \"type"={\"type"} value={value} required={required} />
-      {
-        switch messages {
-        | Some(m) => React.array(m -> Js.Array2.map((msg) =>
-          <span
-            key={msg.id -> Belt.Int.toString}
-            className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-            {React.string(msg.text)}
-          </span>
-        ))
-        | None => React.null
-        }
-      }
+      <Messages messages=?messages />
     </>
   }
 }
