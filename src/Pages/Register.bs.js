@@ -69,9 +69,9 @@ function Register(Props) {
                                 className: "font-medium text-indigo-600 hover:text-indigo-500",
                                 href: "#",
                                 onClick: (function (param) {
-                                    return RescriptReactRouter.push(Route.register);
+                                    return RescriptReactRouter.push(Route.login);
                                   })
-                              }, "register"))), m !== undefined ? m.map(function (m) {
+                              }, "login"))), m !== undefined ? m.map(function (m) {
                           return React.createElement("p", {
                                       key: String(m.id)
                                     }, m.text);

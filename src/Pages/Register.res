@@ -51,9 +51,9 @@ let make = () => {
             {React.string("Or ")}
             <a
               href="#"
-              onClick={_ => RescriptReactRouter.push(Route.register)}
+              onClick={_ => RescriptReactRouter.push(Route.login)}
               className="font-medium text-indigo-600 hover:text-indigo-500">
-              {React.string("register")}
+              {React.string("login")}
             </a>
           </p>
         </div>
