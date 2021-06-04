@@ -14,17 +14,17 @@ let make = () => {
     | Some(id) =>
       api
       ->Kratos.getSelfServiceLoginFlow(id)
-      ->Promise.Js.catch(err => {
-        Js.log(err)
-        RescriptReactRouter.push(Route.login)
-        Promise.Js.rejected(err)
-      })
+      ->Promise.Js.toResult
       ->Promise.get(res => {
-        Js.log(res)
-        if res.status !== 200 {
-          RescriptReactRouter.push(Route.login)
+        switch res {
+        | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
+        | Error(payload) => {
+            Js.log(payload.response)
+            if payload.response.status !== 200 {
+              RescriptReactRouter.push("/login")
+            }
+          }
         }
-        setMethods(_prev => Some(res.data.ui))
       })
     | None =>
       switch Window.redirect(selfServeEndpoint) {

@@ -30,18 +30,19 @@ function Register(Props) {
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
-            $$Promise.get($$Promise.Js.$$catch(api.getSelfServiceRegistrationFlow(id), (function (err) {
-                        console.log(err);
-                        RescriptReactRouter.push(Route.register);
-                        return $$Promise.Js.rejected(err);
-                      })), (function (res) {
-                    console.log(res);
-                    if (res.status !== 200) {
-                      RescriptReactRouter.push(Route.login);
+            $$Promise.get($$Promise.Js.toResult(api.getSelfServiceRegistrationFlow(id)), (function (res) {
+                    if (res.TAG === /* Ok */0) {
+                      var payload = res._0;
+                      return Curry._1(setMethods, (function (_prev) {
+                                    return payload.data.ui;
+                                  }));
                     }
-                    return Curry._1(setMethods, (function (_prev) {
-                                  return res.data.ui;
-                                }));
+                    var payload$1 = res._0;
+                    console.log(payload$1.response);
+                    if (payload$1.response.status !== 200) {
+                      return RescriptReactRouter.push("/login");
+                    }
+                    
                   }));
           } else {
             var e = $$Window.redirect(Kratos.registrationSelfServeEndpoint);

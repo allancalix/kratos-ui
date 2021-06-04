@@ -213,14 +213,12 @@ external getSelfServiceRecoveryFlow: (publicAPI, string) =>
   Promise.Js.t<response<recoveryFlow>, responseErr> = "getSelfServiceRecoveryFlow"
 
 @send
-external getSelfServiceLoginFlow: (publicAPI, string) => Promise.t<response<loginFlow>> =
-  "getSelfServiceLoginFlow"
+external getSelfServiceLoginFlow: (publicAPI, string) =>
+  Promise.Js.t<response<loginFlow>, responseErr> = "getSelfServiceLoginFlow"
 
 @send
-external getSelfServiceRegistrationFlow: (
-  publicAPI,
-  string,
-) => Promise.t<response<registrationFlow>> = "getSelfServiceRegistrationFlow"
+external getSelfServiceRegistrationFlow: (publicAPI, string) =>
+  Promise.Js.t<response<registrationFlow>, responseErr> = "getSelfServiceRegistrationFlow"
 
 @send
 external toSession: (
