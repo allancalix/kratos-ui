@@ -4,6 +4,7 @@
 var Login = require("./Pages/Login.bs.js");
 var React = require("react");
 var NotFound = require("./Pages/NotFound.bs.js");
+var Recovery = require("./Pages/Recovery.bs.js");
 var Register = require("./Pages/Register.bs.js");
 var Dashboard = require("./Pages/Dashboard.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
@@ -18,6 +19,11 @@ function App(Props) {
     case "login" :
         if (!match.tl) {
           return React.createElement(Login.make, {});
+        }
+        break;
+    case "recovery" :
+        if (!match.tl) {
+          return React.createElement(Recovery.make, {});
         }
         break;
     case "register" :

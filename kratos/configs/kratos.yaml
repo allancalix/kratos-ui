@@ -11,6 +11,7 @@ selfservice:
   default_browser_return_url: http://127.0.0.1:3000/
   whitelisted_return_urls:
     - http://127.0.0.1:3000/
+    - http://localhost:3000/
 
   flows:
     logout:
@@ -29,6 +30,11 @@ selfservice:
       ui_url: http://127.0.0.1:3000/recovery
       after:
         default_browser_return_url: http://127.0.0.1:3000/login
+    verification:
+      enabled: true
+      ui_url: http://127.0.0.1:4455/verify
+      after:
+        default_browser_return_url: http://127.0.0.1:4455/
     registration:
       ui_url: http://127.0.0.1:3000/register
       lifespan: 30m

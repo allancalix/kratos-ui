@@ -5,6 +5,8 @@ type publicAPI
 
 let basePath = process["env"]["KRATOS_API"]
 
+let recoverySelfServeEndpoint = `${basePath}/self-service/recovery/browser`
+
 let loginSelfServeEndpoint = `${basePath}/self-service/login/browser`
 
 let registrationSelfServeEndpoint = `${basePath}/self-service/registration/browser`
@@ -143,6 +145,19 @@ type identity = {
   verifiable_addresses: option<array<verifiableIdentityAddress>>,
 }
 
+type recoveryFlow = {
+  active: option<bool>,
+  authenticated_at: string,
+  expires_at: string,
+  id: string,
+  request_url: string,
+  identity: identity,
+  state: string,
+  \"type": option<string>,
+  issued_at: string,
+  ui: uiContainer,
+}
+
 type session = {
   active: option<bool>,
   authenticated_at: string,
@@ -192,9 +207,10 @@ type responseErr = {response: response<error>}
 @new @module("@ory/kratos-client")
 external makeConfiguration: options => configuration = "Configuration"
 @new @module("@ory/kratos-client") external makePublicAPI: configuration => publicAPI = "PublicApi"
+
 @send
-external getSelfServiceRecoveryFlow: (publicAPI, string) => Promise.t<unit> =
-  "getSelfServiceRecoveryFlow"
+external getSelfServiceRecoveryFlow: (publicAPI, string) =>
+  Promise.t<response<recoveryFlow>> = "getSelfServiceRecoveryFlow"
 
 @send
 external getSelfServiceLoginFlow: (publicAPI, string) => Promise.t<response<loginFlow>> =

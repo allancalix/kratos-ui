@@ -13,6 +13,11 @@ var Login = {
   forgotPasswordLabel: "Forgot your password?"
 };
 
+var Recovery = {
+  title: "Recover Password"
+};
+
 exports.Registration = Registration;
 exports.Login = Login;
+exports.Recovery = Recovery;
 /* No side effect */

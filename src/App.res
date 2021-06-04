@@ -6,6 +6,7 @@ let make = () => {
   | list{} => <Dashboard />
   | list{"login"} => <Login />
   | list{"register"} => <Register />
+  | list{"recovery"} => <Recovery />
   | _ => <NotFound />
   }
 }

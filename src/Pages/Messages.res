@@ -8,3 +8,7 @@ module Login = {
   let submitButtonLabel = "Sign in"
   let forgotPasswordLabel = "Forgot your password?"
 }
+
+module Recovery = {
+  let title = "Recover Password"
+}
