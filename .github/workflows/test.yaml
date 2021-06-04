@@ -21,7 +21,8 @@ jobs:
           NODENV=production npx -- parcel build index.html --dist-dir public
           docker-compose -f kratos/docker-compose-backends.yaml -f kratos/docker-compose-e2e.yaml up -d --build --force-recreate
           sleep 10
-          nc -z http://127.0.0.1 3000
+          nc -z 127.0.0.1 3000
+          docker ps -a
           npm run test:e2e
           docker-compose -f kratos/docker-compose-backends.yaml -f kratos/docker-compose-e2e.yaml down
 
