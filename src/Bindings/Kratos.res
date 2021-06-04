@@ -55,7 +55,7 @@ type uiNodeAttributes = uiNodeInputAttributes
 
 type uiNode = {
   group: string,
-  message: array<uiText>,
+  messages: Js.Nullable.t<array<uiText>>,
   meta: meta,
   \"type": string,
 }

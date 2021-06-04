@@ -27,6 +27,10 @@ function DynamicInputList(Props) {
               if (attrs$1.value !== undefined) {
                 tmp.value = Caml_option.valFromOption(attrs$1.value);
               }
+              var tmp$1 = Caml_option.nullable_to_opt(node.messages);
+              if (tmp$1 !== undefined) {
+                tmp.messages = Caml_option.valFromOption(tmp$1);
+              }
               return React.createElement(DynamicInput.make, tmp);
             });
 }

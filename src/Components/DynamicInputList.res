@@ -10,6 +10,7 @@ let make = (~nodes: array<Kratos.uiNode>) =>
           \"type"={attrs.\"type"}
           label=?node.meta.label
           value=?attrs.value
+          messages=?{node.messages->Js.Nullable.toOption}
           required={attrs.required->Belt.Option.getWithDefault(false)}
         />
       | _ => React.null

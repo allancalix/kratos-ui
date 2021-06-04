@@ -3,6 +3,7 @@
 
 var React = require("react");
 var Belt_Option = require("rescript/lib/js/belt_Option.js");
+var Caml_option = require("rescript/lib/js/caml_option.js");
 
 function DynamicInput$NonStandardProps(Props) {
   return React.cloneElement(Props.children, Props.props);
@@ -14,6 +15,8 @@ var NonStandardProps = {
 
 var defaultClasses = "appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm";
 
+var errorClasses = "border-red-500 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm";
+
 var submitClasses = "group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
 
 function DynamicInput$InputField(Props) {
@@ -22,7 +25,9 @@ function DynamicInput$InputField(Props) {
   var required = Props.required;
   var value = Props.value;
   var placeholder = Props.placeholder;
+  var hasErrorOpt = Props.hasError;
   var buttonText = Props.buttonText;
+  var hasError = hasErrorOpt !== undefined ? hasErrorOpt : false;
   if (type === "submit") {
     return React.createElement(DynamicInput$NonStandardProps, {
                 props: {
@@ -38,19 +43,19 @@ function DynamicInput$InputField(Props) {
                     }, Belt_Option.getWithDefault(buttonText, "Submit"))
               });
   } else {
-    return React.createElement(DynamicInput$NonStandardProps, {
-                props: {
-                  "data-testid": name
-                },
-                children: React.createElement("input", {
-                      defaultValue: Belt_Option.getWithDefault(value, ""),
-                      className: defaultClasses,
-                      name: name,
-                      placeholder: Belt_Option.getWithDefault(placeholder, ""),
-                      required: required,
-                      type: type
-                    })
-              });
+    return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$NonStandardProps, {
+                    props: {
+                      "data-testid": name
+                    },
+                    children: React.createElement("input", {
+                          defaultValue: Belt_Option.getWithDefault(value, ""),
+                          className: hasError ? errorClasses : defaultClasses,
+                          name: name,
+                          placeholder: Belt_Option.getWithDefault(placeholder, ""),
+                          required: required,
+                          type: type
+                        })
+                  }));
   }
 }
 
@@ -58,12 +63,23 @@ var InputField = {
   make: DynamicInput$InputField
 };
 
+function hasErrorMessage(messages) {
+  if (messages !== undefined) {
+    return Belt_Option.isSome(Caml_option.undefined_to_opt(messages.find(function (m) {
+                        return m.type === "error";
+                      })));
+  } else {
+    return false;
+  }
+}
+
 function DynamicInput(Props) {
   var name = Props.name;
   var type = Props.type;
   var label = Props.label;
   var value = Props.value;
   var requiredOpt = Props.required;
+  var messages = Props.messages;
   var required = requiredOpt !== undefined ? requiredOpt : false;
   if (label !== undefined) {
     return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$NonStandardProps, {
@@ -80,15 +96,26 @@ function DynamicInput(Props) {
                     required: required,
                     value: value,
                     placeholder: label.text,
+                    hasError: hasErrorMessage(messages),
                     buttonText: label.text
-                  }));
+                  }), messages !== undefined ? messages.map(function (msg) {
+                      return React.createElement("span", {
+                                  key: String(msg.id),
+                                  className: "flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
+                                }, msg.text);
+                    }) : null);
   } else {
-    return React.createElement(DynamicInput$InputField, {
-                name: name,
-                type: type,
-                required: required,
-                value: value
-              });
+    return React.createElement(React.Fragment, undefined, React.createElement(DynamicInput$InputField, {
+                    name: name,
+                    type: type,
+                    required: required,
+                    value: value
+                  }), messages !== undefined ? messages.map(function (msg) {
+                      return React.createElement("span", {
+                                  key: String(msg.id),
+                                  className: "flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1"
+                                }, msg.text);
+                    }) : null);
   }
 }
 
@@ -96,7 +123,9 @@ var make = DynamicInput;
 
 exports.NonStandardProps = NonStandardProps;
 exports.defaultClasses = defaultClasses;
+exports.errorClasses = errorClasses;
 exports.submitClasses = submitClasses;
 exports.InputField = InputField;
+exports.hasErrorMessage = hasErrorMessage;
 exports.make = make;
 /* react Not a pure module */

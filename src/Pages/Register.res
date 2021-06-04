@@ -16,6 +16,7 @@ let make = () => {
       ->Kratos.getSelfServiceRegistrationFlow(id)
       ->Promise.Js.toResult
       ->Promise.get(res => {
+        Js.log(res)
         switch res {
         | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
         | Error(payload) => {

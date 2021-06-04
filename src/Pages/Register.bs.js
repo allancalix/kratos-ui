@@ -31,6 +31,7 @@ function Register(Props) {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
             $$Promise.get($$Promise.Js.toResult(api.getSelfServiceRegistrationFlow(id)), (function (res) {
+                    console.log(res);
                     if (res.TAG === /* Ok */0) {
                       var payload = res._0;
                       return Curry._1(setMethods, (function (_prev) {
