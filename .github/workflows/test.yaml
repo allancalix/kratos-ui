@@ -16,7 +16,8 @@ jobs:
         run: npm run ci:test
       - name: Run E2E Tests
         run: |
+          npx playwright install-deps chromium
           NODENV=production npx -- parcel build index.html --dist-dir public
-          docker-compose -f kratos/docker-compose.yaml -f kratos/docker-compose-e2e.yaml up -d --build --force-recreate
+          docker-compose -f kratos/docker-compose-backends.yaml -f kratos/docker-compose-e2e.yaml up -d --build --force-recreate
           npm run test:e2e
-          docker-compose -f kratos/docker-compose.yaml -f kratos/docker-compose-e2e.yaml down
+          docker-compose -f kratos/docker-compose-backends.yaml -f kratos/docker-compose-e2e.yaml down
