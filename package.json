@@ -7,7 +7,8 @@
     "re:build": "rescript",
     "re:start": "rescript build -w",
     "serve": "parcel serve index.html -p 3000",
-    "test": "npm run re:start && jest -v"
+    "test": "npm run re:start && jest -v",
+    "ci:test": "npm run re:build && jest -c jest-unit.config.js"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "autoprefixer": "^10.2.6",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "bs-jest-dom": "^4.1.1",
+    "jest": "^27.0.4",
     "jest-environment-node": "^27.0.3",
     "jest-playwright-preset": "^1.6.0",
     "jest-runner": "^27.0.3",
