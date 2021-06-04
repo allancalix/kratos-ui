@@ -31,8 +31,7 @@ module InputField = {
           {React.string(buttonText->Belt.Option.getWithDefault("Submit"))}
         </button>
       </NonStandardProps>
-    | _ =>
-      <>
+    | _ => <>
         <NonStandardProps props={"data-testid": name}>
           <input
             className={hasError ? errorClasses : defaultClasses}
@@ -51,22 +50,24 @@ module Messages = {
   @react.component
   let make = (~messages: option<array<Kratos.uiText>>=?) =>
     switch messages {
-      | Some(m) => React.array(m -> Js.Array2.map((msg) =>
-        <span
-        key={msg.id -> Belt.Int.toString}
-        className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
-        {React.string(msg.text)}
-        </span>
-      ))
-      | None => React.null
+    | Some(m) =>
+      React.array(
+        m->Js.Array2.map(msg =>
+          <span
+            key={msg.id->Belt.Int.toString}
+            className="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+            {React.string(msg.text)}
+          </span>
+        ),
+      )
+    | None => React.null
     }
 }
 
 let hasErrorMessage = (messages: option<array<Kratos.uiText>>) =>
   switch messages {
-    | Some(m) =>
-      m -> Js.Array2.find(m => m.\"type" === "error") -> Belt.Option.isSome
-    | None => false
+  | Some(m) => m->Js.Array2.find(m => m.\"type" === "error")->Belt.Option.isSome
+  | None => false
   }
 
 @react.component
@@ -77,10 +78,9 @@ let make = (
   ~value: option<Kratos.uiNodeInputAttributesValue>=?,
   ~required=false,
   ~messages: option<array<Kratos.uiText>>=?,
-) => {
+) =>
   switch label {
-  | Some(l) =>
-    <>
+  | Some(l) => <>
       <NonStandardProps props={"data-testid": "label"}>
         <label key={Js.Int.toString(l.id)} className="sr-only"> {React.string(l.text)} </label>
       </NonStandardProps>
@@ -93,12 +93,10 @@ let make = (
         hasError={messages->hasErrorMessage}
         buttonText={l.text}
       />
-      <Messages messages=?messages />
+      <Messages ?messages />
     </>
-  | None =>
-    <>
+  | None => <>
       <InputField name={name} \"type"={\"type"} value={value} required={required} />
-      <Messages messages=?messages />
+      <Messages ?messages />
     </>
   }
-}

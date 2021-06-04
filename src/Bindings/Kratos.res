@@ -209,16 +209,22 @@ external makeConfiguration: options => configuration = "Configuration"
 @new @module("@ory/kratos-client") external makePublicAPI: configuration => publicAPI = "PublicApi"
 
 @send
-external getSelfServiceRecoveryFlow: (publicAPI, string) =>
-  Promise.Js.t<response<recoveryFlow>, responseErr> = "getSelfServiceRecoveryFlow"
+external getSelfServiceRecoveryFlow: (
+  publicAPI,
+  string,
+) => Promise.Js.t<response<recoveryFlow>, responseErr> = "getSelfServiceRecoveryFlow"
 
 @send
-external getSelfServiceLoginFlow: (publicAPI, string) =>
-  Promise.Js.t<response<loginFlow>, responseErr> = "getSelfServiceLoginFlow"
+external getSelfServiceLoginFlow: (
+  publicAPI,
+  string,
+) => Promise.Js.t<response<loginFlow>, responseErr> = "getSelfServiceLoginFlow"
 
 @send
-external getSelfServiceRegistrationFlow: (publicAPI, string) =>
-  Promise.Js.t<response<registrationFlow>, responseErr> = "getSelfServiceRegistrationFlow"
+external getSelfServiceRegistrationFlow: (
+  publicAPI,
+  string,
+) => Promise.Js.t<response<registrationFlow>, responseErr> = "getSelfServiceRegistrationFlow"
 
 @send
 external toSession: (
