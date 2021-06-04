@@ -29,14 +29,19 @@ function Recovery(Props) {
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
-            $$Promise.get($$Promise.Js.$$catch(api.getSelfServiceRecoveryFlow(id), (function (err) {
-                        console.log(err);
-                        return $$Promise.Js.rejected(err);
-                      })), (function (res) {
-                    console.log(res);
-                    return Curry._1(setMethods, (function (_prev) {
-                                  return res.data.ui;
-                                }));
+            $$Promise.get($$Promise.Js.toResult(api.getSelfServiceRecoveryFlow(id)), (function (res) {
+                    if (res.TAG === /* Ok */0) {
+                      var payload = res._0;
+                      return Curry._1(setMethods, (function (_prev) {
+                                    return payload.data.ui;
+                                  }));
+                    }
+                    var payload$1 = res._0;
+                    console.log(payload$1.response);
+                    if (payload$1.response.status !== 200) {
+                      return RescriptReactRouter.push("/login");
+                    }
+                    
                   }));
           } else {
             var e = $$Window.redirect(Kratos.recoverySelfServeEndpoint);

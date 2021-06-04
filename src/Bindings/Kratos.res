@@ -210,7 +210,7 @@ external makeConfiguration: options => configuration = "Configuration"
 
 @send
 external getSelfServiceRecoveryFlow: (publicAPI, string) =>
-  Promise.t<response<recoveryFlow>> = "getSelfServiceRecoveryFlow"
+  Promise.Js.t<response<recoveryFlow>, responseErr> = "getSelfServiceRecoveryFlow"
 
 @send
 external getSelfServiceLoginFlow: (publicAPI, string) => Promise.t<response<loginFlow>> =

@@ -66,7 +66,10 @@ let make = () => {
         | None => React.null
         }}
         <Form ui={container}>
-          <a className="font-medium text-indigo-600 hover:text-indigo-500">
+          <a
+            href="#"
+            onClick={_ => RescriptReactRouter.push(Route.recovery)}
+            className="font-medium text-indigo-600 hover:text-indigo-500">
             {React.string(Messages.Login.forgotPasswordLabel)}
           </a>
         </Form>

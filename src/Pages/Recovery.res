@@ -14,17 +14,17 @@ let make = () => {
     | Some(id) =>
       api
       ->Kratos.getSelfServiceRecoveryFlow(id)
-      ->Promise.Js.catch(err => {
-        Js.log(err)
-        /* RescriptReactRouter.push(Route.login) */
-        Promise.Js.rejected(err)
-      })
+      ->Promise.Js.toResult
       ->Promise.get(res => {
-        Js.log(res)
-        /* if res.status !== 200 { */
-        /*   RescriptReactRouter.push(Route.login) */
-        /* } */
-        setMethods(_prev => Some(res.data.ui))
+        switch res {
+        | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
+        | Error(payload) => {
+            Js.log(payload.response)
+            if payload.response.status !== 200 {
+              RescriptReactRouter.push("/login")
+            }
+          }
+        }
       })
     | None =>
       switch Window.redirect(selfServeEndpoint) {
@@ -35,9 +35,9 @@ let make = () => {
         }
       }
     }
+
     None
   })
-
   let loginForms = (container: Kratos.uiContainer) =>
     <div
       className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">

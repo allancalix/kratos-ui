@@ -8,7 +8,10 @@ var login = "/login";
 
 var register = "/register";
 
+var recovery = "/recovery";
+
 exports.dashboard = dashboard;
 exports.login = login;
 exports.register = register;
+exports.recovery = recovery;
 /* No side effect */

@@ -76,7 +76,11 @@ function Login(Props) {
                         }) : null, React.createElement(Form.make, {
                         ui: container,
                         children: React.createElement("a", {
-                              className: "font-medium text-indigo-600 hover:text-indigo-500"
+                              className: "font-medium text-indigo-600 hover:text-indigo-500",
+                              href: "#",
+                              onClick: (function (param) {
+                                  return RescriptReactRouter.push(Route.recovery);
+                                })
                             }, Messages.Login.forgotPasswordLabel)
                       })));
   };
