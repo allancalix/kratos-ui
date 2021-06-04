@@ -120,13 +120,25 @@ type verifiableIdentityAddress = {
   via: string,
 }
 
+type nameTrait = {
+  first: string,
+  last: string,
+}
+
+// TODO(allancalix): This is a dynamic trait that is set depending on the
+// schema. Hard coding this to the default schema for now.
+type traits = {
+  email: string,
+  name: Js.Nullable.t<nameTrait>,
+}
+
 type identity = {
   created_at: option<string>,
   id: string,
   recovery_addresses: option<array<recoveryAddress>>,
   schema_id: string,
   schema_url: string,
-  // traits: option<{..}>,
+  traits: traits,
   updated_at: option<string>,
   verifiable_addresses: option<array<verifiableIdentityAddress>>,
 }

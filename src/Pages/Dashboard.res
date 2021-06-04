@@ -17,6 +17,7 @@ let make = () => {
     ->Kratos.toSession(/* token= */ None, /* options= */ Some({withCredentials: true}))
     ->Promise.Js.toResult
     ->Promise.get(res => {
+      Js.log(res)
       switch res {
       | Ok(payload) => setIdentity(_prev => Some(payload.data.identity))
       | Error(payload) => {
@@ -41,7 +42,7 @@ let make = () => {
         <div className="max-w-md w-full space-y-8">
           <DynamicInput.NonStandardProps props={"data-testid": "greeting"}>
             <h1 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              {React.string("Hello " ++ i.id ++ "!")}
+              {React.string("Hello " ++ i.traits.email ++ "!")}
             </h1>
           </DynamicInput.NonStandardProps>
         </div>

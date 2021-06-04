@@ -29,6 +29,7 @@ function Dashboard(Props) {
           $$Promise.get($$Promise.Js.toResult(KratosClient.api.toSession(undefined, {
                         withCredentials: true
                       })), (function (res) {
+                  console.log(res);
                   if (res.TAG === /* Ok */0) {
                     var payload = res._0;
                     return Curry._1(setIdentity, (function (_prev) {
@@ -54,7 +55,7 @@ function Dashboard(Props) {
                             },
                             children: React.createElement("h1", {
                                   className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
-                                }, "Hello " + identity.id + "!")
+                                }, "Hello " + identity.traits.email + "!")
                           })), React.createElement("div", {
                         className: "mt-8 space-y-6"
                       }, React.createElement("button", {
