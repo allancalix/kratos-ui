@@ -27,4 +27,9 @@ jobs:
           nc -z 127.0.0.1 3000
           npm run test:e2e
           docker-compose -f kratos/docker-compose-backends.yaml -f kratos/docker-compose-e2e.yaml down
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() || success() }}
+        with:
+          name: Recordings
+          path: videos/
 
