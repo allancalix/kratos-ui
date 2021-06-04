@@ -2,18 +2,6 @@
 'use strict';
 
 
-var basePath = process.env.KRATOS_API;
-
-var recoverySelfServeEndpoint = basePath + "/self-service/recovery/browser";
-
-var loginSelfServeEndpoint = basePath + "/self-service/login/browser";
-
-var registrationSelfServeEndpoint = basePath + "/self-service/registration/browser";
-
-var logoutSelfServeEndpoint = basePath + "/self-service/browser/flows/logout";
-
-var whoamiEndpoint = basePath + "/sessions/whoami";
-
 function parseAttrs(node) {
   var match = node.type;
   if (match === "input") {
@@ -33,11 +21,5 @@ function parseAttrs(node) {
   }
 }
 
-exports.basePath = basePath;
-exports.recoverySelfServeEndpoint = recoverySelfServeEndpoint;
-exports.loginSelfServeEndpoint = loginSelfServeEndpoint;
-exports.registrationSelfServeEndpoint = registrationSelfServeEndpoint;
-exports.logoutSelfServeEndpoint = logoutSelfServeEndpoint;
-exports.whoamiEndpoint = whoamiEndpoint;
 exports.parseAttrs = parseAttrs;
-/* basePath Not a pure module */
+/* No side effect */

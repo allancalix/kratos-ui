@@ -6,19 +6,12 @@ var Form = require("../Components/Form.bs.js");
 var Curry = require("rescript/lib/js/curry.js");
 var Route = require("./Route.bs.js");
 var React = require("react");
-var Kratos = require("../Bindings/Kratos.bs.js");
 var $$Window = require("../Bindings/Window.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
-var KratosClient = require("@ory/kratos-client");
+var KratosClient = require("../KratosClient.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
-
-var opts = {
-  basePath: Kratos.basePath
-};
-
-var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
 
 function Login(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
@@ -30,7 +23,7 @@ function Login(Props) {
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
-            $$Promise.get($$Promise.Js.toResult(api.getSelfServiceLoginFlow(id)), (function (res) {
+            $$Promise.get($$Promise.Js.toResult(KratosClient.api.getSelfServiceLoginFlow(id)), (function (res) {
                     if (res.TAG === /* Ok */0) {
                       var payload = res._0;
                       return Curry._1(setMethods, (function (_prev) {
@@ -45,7 +38,7 @@ function Login(Props) {
                     
                   }));
           } else {
-            var e = $$Window.redirect(Kratos.loginSelfServeEndpoint);
+            var e = $$Window.redirect(KratosClient.loginSelfServeEndpoint);
             if (e.TAG === /* Ok */0) {
               console.log("Window location set but page redirect failed.");
             } else {
@@ -88,12 +81,7 @@ function Login(Props) {
   return React.createElement("div", undefined, methods !== undefined ? loginForms(methods) : null);
 }
 
-var selfServeEndpoint = Kratos.loginSelfServeEndpoint;
-
 var make = Login;
 
-exports.selfServeEndpoint = selfServeEndpoint;
-exports.opts = opts;
-exports.api = api;
 exports.make = make;
-/* api Not a pure module */
+/* Url Not a pure module */

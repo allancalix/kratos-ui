@@ -3,15 +3,14 @@
 
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var Kratos = require("../Bindings/Kratos.bs.js");
 var $$Window = require("../Bindings/Window.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var DynamicInput = require("../Components/DynamicInput.bs.js");
-var KratosClient = require("@ory/kratos-client");
+var KratosClient = require("../KratosClient.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
 function signOut(param) {
-  var e = $$Window.redirect(Kratos.logoutSelfServeEndpoint);
+  var e = $$Window.redirect(KratosClient.logoutSelfServeEndpoint);
   if (e.TAG === /* Ok */0) {
     console.log("Window location set but page redirect failed.");
     return ;
@@ -20,12 +19,6 @@ function signOut(param) {
   
 }
 
-var opts = {
-  basePath: Kratos.basePath
-};
-
-var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
-
 function Dashboard(Props) {
   var match = React.useState(function () {
         
@@ -33,7 +26,7 @@ function Dashboard(Props) {
   var setIdentity = match[1];
   var identity = match[0];
   React.useEffect((function () {
-          $$Promise.get($$Promise.Js.toResult(api.toSession(undefined, {
+          $$Promise.get($$Promise.Js.toResult(KratosClient.api.toSession(undefined, {
                         withCredentials: true
                       })), (function (res) {
                   if (res.TAG === /* Ok */0) {
@@ -75,7 +68,5 @@ function Dashboard(Props) {
 var make = Dashboard;
 
 exports.signOut = signOut;
-exports.opts = opts;
-exports.api = api;
 exports.make = make;
-/* api Not a pure module */
+/* react Not a pure module */

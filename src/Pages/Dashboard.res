@@ -1,5 +1,5 @@
 let signOut = () => {
-  switch Window.redirect(Kratos.logoutSelfServeEndpoint) {
+  switch Window.redirect(KratosClient.logoutSelfServeEndpoint) {
   | Ok(_) => Js.log("Window location set but page redirect failed.")
   | Error(e) =>
     switch e {
@@ -8,16 +8,12 @@ let signOut = () => {
   }
 }
 
-let opts: Kratos.options = {basePath: Kratos.basePath}
-
-let api = opts |> Kratos.makeConfiguration |> Kratos.makePublicAPI
-
 @react.component
 let make = () => {
   let (identity, setIdentity) = React.useState(_ => None)
 
   React.useEffect0(() => {
-    api
+    KratosClient.api
     ->Kratos.toSession(/* token= */ None, /* options= */ Some({withCredentials: true}))
     ->Promise.Js.toResult
     ->Promise.get(res => {

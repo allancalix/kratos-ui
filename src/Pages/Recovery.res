@@ -1,9 +1,3 @@
-let selfServeEndpoint = Kratos.recoverySelfServeEndpoint
-
-let opts: Kratos.options = {basePath: Kratos.basePath}
-
-let api = opts |> Kratos.makeConfiguration |> Kratos.makePublicAPI
-
 @react.component
 let make = () => {
   let url = RescriptReactRouter.useUrl()
@@ -12,7 +6,7 @@ let make = () => {
   React.useEffect0(() => {
     switch url->Url.parseSearchParams->Belt.Map.get("flow") {
     | Some(id) =>
-      api
+      KratosClient.api
       ->Kratos.getSelfServiceRecoveryFlow(id)
       ->Promise.Js.toResult
       ->Promise.get(res => {
@@ -27,7 +21,7 @@ let make = () => {
         }
       })
     | None =>
-      switch Window.redirect(selfServeEndpoint) {
+      switch Window.redirect(KratosClient.recoverySelfServeEndpoint) {
       | Ok(_) => Js.log("Window location set but page redirect failed.")
       | Error(e) =>
         switch e {

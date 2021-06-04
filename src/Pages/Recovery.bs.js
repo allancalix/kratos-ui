@@ -5,19 +5,12 @@ var Url = require("../Url.bs.js");
 var Form = require("../Components/Form.bs.js");
 var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var Kratos = require("../Bindings/Kratos.bs.js");
 var $$Window = require("../Bindings/Window.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
-var KratosClient = require("@ory/kratos-client");
+var KratosClient = require("../KratosClient.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
-
-var opts = {
-  basePath: Kratos.basePath
-};
-
-var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
 
 function Recovery(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
@@ -29,7 +22,7 @@ function Recovery(Props) {
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
-            $$Promise.get($$Promise.Js.toResult(api.getSelfServiceRecoveryFlow(id)), (function (res) {
+            $$Promise.get($$Promise.Js.toResult(KratosClient.api.getSelfServiceRecoveryFlow(id)), (function (res) {
                     if (res.TAG === /* Ok */0) {
                       var payload = res._0;
                       return Curry._1(setMethods, (function (_prev) {
@@ -44,7 +37,7 @@ function Recovery(Props) {
                     
                   }));
           } else {
-            var e = $$Window.redirect(Kratos.recoverySelfServeEndpoint);
+            var e = $$Window.redirect(KratosClient.recoverySelfServeEndpoint);
             if (e.TAG === /* Ok */0) {
               console.log("Window location set but page redirect failed.");
             } else {
@@ -72,12 +65,7 @@ function Recovery(Props) {
   return React.createElement("div", undefined, methods !== undefined ? loginForms(methods) : null);
 }
 
-var selfServeEndpoint = Kratos.recoverySelfServeEndpoint;
-
 var make = Recovery;
 
-exports.selfServeEndpoint = selfServeEndpoint;
-exports.opts = opts;
-exports.api = api;
 exports.make = make;
-/* api Not a pure module */
+/* Url Not a pure module */

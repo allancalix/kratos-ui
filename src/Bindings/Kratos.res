@@ -1,19 +1,6 @@
-@val external process: {..} = "process"
-
 type configuration
+
 type publicAPI
-
-let basePath = process["env"]["KRATOS_API"]
-
-let recoverySelfServeEndpoint = `${basePath}/self-service/recovery/browser`
-
-let loginSelfServeEndpoint = `${basePath}/self-service/login/browser`
-
-let registrationSelfServeEndpoint = `${basePath}/self-service/registration/browser`
-
-let logoutSelfServeEndpoint = `${basePath}/self-service/browser/flows/logout`
-
-let whoamiEndpoint = `${basePath}/sessions/whoami`
 
 type options = {basePath: string}
 
@@ -43,7 +30,6 @@ type uiNodeInputAttributes = {
   value: option<uiNodeInputAttributesValue>,
 }
 
-// TODO(allancalix): Implement the other types.
 type testUiNodeAttributes =
   | UiNodeInputAttributes(uiNodeInputAttributes)
   | UiNodeAnchorAttributes

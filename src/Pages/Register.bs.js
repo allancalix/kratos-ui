@@ -6,19 +6,12 @@ var Form = require("../Components/Form.bs.js");
 var Curry = require("rescript/lib/js/curry.js");
 var Route = require("./Route.bs.js");
 var React = require("react");
-var Kratos = require("../Bindings/Kratos.bs.js");
 var $$Window = require("../Bindings/Window.bs.js");
 var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
-var KratosClient = require("@ory/kratos-client");
+var KratosClient = require("../KratosClient.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
-
-var opts = {
-  basePath: Kratos.basePath
-};
-
-var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
 
 function Register(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
@@ -30,7 +23,7 @@ function Register(Props) {
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
-            $$Promise.get($$Promise.Js.toResult(api.getSelfServiceRegistrationFlow(id)), (function (res) {
+            $$Promise.get($$Promise.Js.toResult(KratosClient.api.getSelfServiceRegistrationFlow(id)), (function (res) {
                     console.log(res);
                     if (res.TAG === /* Ok */0) {
                       var payload = res._0;
@@ -46,7 +39,7 @@ function Register(Props) {
                     
                   }));
           } else {
-            var e = $$Window.redirect(Kratos.registrationSelfServeEndpoint);
+            var e = $$Window.redirect(KratosClient.registrationSelfServeEndpoint);
             if (e.TAG === /* Ok */0) {
               console.log("Window location set but page redirect failed.");
             } else {
@@ -83,12 +76,7 @@ function Register(Props) {
   }
 }
 
-var selfServeEndpoint = Kratos.registrationSelfServeEndpoint;
-
 var make = Register;
 
-exports.selfServeEndpoint = selfServeEndpoint;
-exports.opts = opts;
-exports.api = api;
 exports.make = make;
-/* api Not a pure module */
+/* Url Not a pure module */
