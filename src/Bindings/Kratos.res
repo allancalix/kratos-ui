@@ -1,5 +1,8 @@
 @val external process: {..} = "process"
 
+type configuration
+type publicAPI
+
 let basePath = process["env"]["KRATOS_API"]
 
 let loginSelfServeEndpoint = `${basePath}/self-service/login/browser`
@@ -10,53 +13,7 @@ let logoutSelfServeEndpoint = `${basePath}/self-service/browser/flows/logout`
 
 let whoamiEndpoint = `${basePath}/sessions/whoami`
 
-type options = {
-  basePath: string,
-}
-type configuration
-type publicAPI
-
-type message = {
-  id: int,
-  text: string,
-}
-
-type messageList = array<message>
-
-type recoveryFlowResponse = {
-  status: int,
-}
-
-type inputField = {
-  name: string,
-  required: bool,
-  \"type": string,
-  value: string,
-}
-
-type loginTypeConfig = {
-  action: string,
-  method: string,
-  fields: array<inputField>,
-  messages: option<messageList>,
-}
-
-type supportedMethod = {
-  config: loginTypeConfig,
-  method: string,
-  messages: array<string>,
-}
-
-type payload = {
-  expires_at: string,
-  forced: bool,
-  id: string,
-  issued_at: string,
-  // This might not quite be right because this field is nullable.
-  messages: array<string>,
-  methods: Js.Dict.t<supportedMethod>,
-
-}
+type options = {basePath: string}
 
 type uiText = {
   // TODO(allancalix): Not sure about this.
@@ -66,15 +23,13 @@ type uiText = {
   \"type": string,
 }
 
-type meta = {
-  label: option<uiText>,
-}
+type meta = {label: option<uiText>}
 
 // TODO(allancalix): Not sure yet how to parse values into variants reliably.
 type uiNodeInputAttributesValue = string
-  /* | Bool(bool) */
-  /* | Int(int) */
-  /* | String(string); */
+/* | Bool(bool) */
+/* | Int(int) */
+/* | String(string); */
 
 type uiNodeInputAttributes = {
   disabled: bool,
@@ -87,19 +42,46 @@ type uiNodeInputAttributes = {
 }
 
 // TODO(allancalix): Implement the other types.
-/* type UiNodeAttributes = UiNodeAnchorAttributes | UiNodeImageAttributes | UiNodeInputAttributes | UiNodeTextAttributes; */
+type testUiNodeAttributes =
+  | UiNodeInputAttributes(uiNodeInputAttributes)
+  | UiNodeAnchorAttributes
+  | UiNodeImageAttributes
+  | UiNodeTextAttributes
+  | UiNodeNotRecognized
+
 type uiNodeAttributes = uiNodeInputAttributes
 
-/* let readAttributes = (uiNodeAttributes) => */
-/*   | UiNodeInputAttributes(uiNodeInputAttributes) */
-
 type uiNode = {
-  attributes: uiNodeAttributes,
   group: string,
   message: array<uiText>,
   meta: meta,
   \"type": string,
 }
+
+type attributes
+@get external attributes: uiNode => attributes = "attributes"
+@get external disabled: attributes => bool = "disabled"
+@get external label: attributes => option<uiText> = "label"
+@get external name: attributes => string = "name"
+@get external pattern: attributes => option<string> = "pattern"
+@get external required: attributes => option<bool> = "required"
+@get external \"type": attributes => string = "type"
+@get external value: attributes => option<uiNodeInputAttributesValue> = "value"
+
+let parseAttrs = node =>
+  switch node.\"type" {
+  | "input" =>
+    UiNodeInputAttributes({
+      disabled: node->attributes->disabled,
+      label: node->attributes->label,
+      name: node->attributes->name,
+      pattern: node->attributes->pattern,
+      required: node->attributes->required,
+      \"type": node->attributes->\"type",
+      value: node->attributes->value,
+    })
+  | _ => UiNodeNotRecognized
+  }
 
 type uiContainer = {
   action: string,
@@ -166,17 +148,15 @@ type session = {
   authenticated_at: string,
   expires_at: string,
   id: string,
-  \"identity": identity,
+  identity: identity,
   issued_at: string,
 }
 
 type response<'a> = {
   // `data` is the response that was provided by the server
   data: 'a,
-
   // `status` is the HTTP status code from the server response
   status: int,
-
   // `statusText` is the HTTP status message from the server response
   statusText: string,
 
@@ -198,9 +178,7 @@ type response<'a> = {
 }
 
 // TODO(allancalix): This should probably be optional.
-type requestOpts = {
-  withCredentials: bool,
-}
+type requestOpts = {withCredentials: bool}
 
 type error = {
   code: int,
@@ -209,21 +187,28 @@ type error = {
   status: string,
 }
 
-type responseErr = {
-  response: response<error>,
-}
+type responseErr = {response: response<error>}
 
-@new @module("@ory/kratos-client") external makeConfiguration: options => configuration = "Configuration"
+@new @module("@ory/kratos-client")
+external makeConfiguration: options => configuration = "Configuration"
 @new @module("@ory/kratos-client") external makePublicAPI: configuration => publicAPI = "PublicApi"
-@send external getSelfServiceRecoveryFlow: (publicAPI, string) =>
-  Promise.t<recoveryFlowResponse> = "getSelfServiceRecoveryFlow"
-
-@send external getSelfServiceLoginFlow: (publicAPI, string) =>
-  Promise.t<response<loginFlow>> = "getSelfServiceLoginFlow"
-
-@send external getSelfServiceRegistrationFlow: (publicAPI, string) =>
-  Promise.t<response<registrationFlow>> = "getSelfServiceRegistrationFlow"
+@send
+external getSelfServiceRecoveryFlow: (publicAPI, string) => Promise.t<unit> =
+  "getSelfServiceRecoveryFlow"
 
 @send
-external toSession: (publicAPI, option<string>, option<requestOpts>) =>
-  Promise.Js.t<response<session>, responseErr> = "toSession"
+external getSelfServiceLoginFlow: (publicAPI, string) => Promise.t<response<loginFlow>> =
+  "getSelfServiceLoginFlow"
+
+@send
+external getSelfServiceRegistrationFlow: (
+  publicAPI,
+  string,
+) => Promise.t<response<registrationFlow>> = "getSelfServiceRegistrationFlow"
+
+@send
+external toSession: (
+  publicAPI,
+  option<string>,
+  option<requestOpts>,
+) => Promise.Js.t<response<session>, responseErr> = "toSession"

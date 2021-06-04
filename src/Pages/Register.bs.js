@@ -20,14 +20,6 @@ var opts = {
 
 var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
 
-function renderMessages(messages) {
-  if (messages !== undefined) {
-    return messages;
-  } else {
-    return [];
-  }
-}
-
 function Register(Props) {
   var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = React.useState(function () {
@@ -96,6 +88,5 @@ var make = Register;
 exports.selfServeEndpoint = selfServeEndpoint;
 exports.opts = opts;
 exports.api = api;
-exports.renderMessages = renderMessages;
 exports.make = make;
 /* api Not a pure module */

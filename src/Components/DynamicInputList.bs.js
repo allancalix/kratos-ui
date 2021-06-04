@@ -2,19 +2,31 @@
 'use strict';
 
 var React = require("react");
+var Kratos = require("../Bindings/Kratos.bs.js");
+var Belt_Option = require("rescript/lib/js/belt_Option.js");
+var Caml_option = require("rescript/lib/js/caml_option.js");
 var DynamicInput = require("./DynamicInput.bs.js");
 
 function DynamicInputList(Props) {
   var nodes = Props.nodes;
   return nodes.map(function (node) {
-              var match = node.type;
-              if (match === "input") {
-                return React.createElement(DynamicInput.make, {
-                            node: node
-                          });
-              } else {
+              var attrs = Kratos.parseAttrs(node);
+              if (typeof attrs === "number") {
                 return null;
               }
+              var attrs$1 = attrs._0;
+              var tmp = {
+                name: attrs$1.name,
+                type: attrs$1.type,
+                required: Belt_Option.getWithDefault(attrs$1.required, false)
+              };
+              if (node.meta.label !== undefined) {
+                tmp.label = Caml_option.valFromOption(node.meta.label);
+              }
+              if (attrs$1.value !== undefined) {
+                tmp.value = Caml_option.valFromOption(attrs$1.value);
+              }
+              return React.createElement(DynamicInput.make, tmp);
             });
 }
 

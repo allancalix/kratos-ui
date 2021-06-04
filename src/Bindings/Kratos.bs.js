@@ -12,9 +12,29 @@ var logoutSelfServeEndpoint = basePath + "/self-service/browser/flows/logout";
 
 var whoamiEndpoint = basePath + "/sessions/whoami";
 
+function parseAttrs(node) {
+  var match = node.type;
+  if (match === "input") {
+    return /* UiNodeInputAttributes */{
+            _0: {
+              disabled: node.attributes.disabled,
+              label: node.attributes.label,
+              name: node.attributes.name,
+              pattern: node.attributes.pattern,
+              required: node.attributes.required,
+              type: node.attributes.type,
+              value: node.attributes.value
+            }
+          };
+  } else {
+    return /* UiNodeNotRecognized */3;
+  }
+}
+
 exports.basePath = basePath;
 exports.loginSelfServeEndpoint = loginSelfServeEndpoint;
 exports.registrationSelfServeEndpoint = registrationSelfServeEndpoint;
 exports.logoutSelfServeEndpoint = logoutSelfServeEndpoint;
 exports.whoamiEndpoint = whoamiEndpoint;
+exports.parseAttrs = parseAttrs;
 /* basePath Not a pure module */

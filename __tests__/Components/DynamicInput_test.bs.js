@@ -9,49 +9,31 @@ var DynamicInput = require("../../src/Components/DynamicInput.bs.js");
 var ReactTestingLibrary = require("@rescriptbr/react-testing-library/src/ReactTestingLibrary.bs.js");
 
 Jest.describe("DynamicInputComponent", (function (param) {
-        var attrs = {
-          disabled: false,
-          label: undefined,
-          name: "password",
-          pattern: undefined,
-          required: true,
-          type: "password",
-          value: undefined
+        var createComponent = function (param) {
+          return React.createElement(DynamicInput.make, {
+                      name: "password",
+                      type: "password",
+                      required: true
+                    });
         };
-        var node_message = [];
-        var node_meta = {
-          label: undefined
-        };
-        var node = {
-          attributes: attrs,
-          group: "password",
-          message: node_message,
-          meta: node_meta,
-          type: "input"
-        };
-        var metaWithLabel = {
-          label: {
-            context: undefined,
-            id: 10,
-            text: "Cool Label",
-            type: "info"
-          }
+        var createComponentWithLabel = function (param) {
+          return React.createElement(DynamicInput.make, {
+                      name: "password",
+                      type: "password",
+                      label: {
+                        context: undefined,
+                        id: 10,
+                        text: "Cool Label",
+                        type: "info"
+                      },
+                      required: true
+                    });
         };
         Jest.test("when label is provided then matches expected", (function (param) {
-                return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                        node: {
-                                          attributes: attrs,
-                                          group: "password",
-                                          message: node_message,
-                                          meta: metaWithLabel,
-                                          type: "input"
-                                        }
-                                      })).container));
+                return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, createComponentWithLabel(undefined)).container));
               }));
         Jest.test("when no label is provided then matches snapshot", (function (param) {
-                return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                        node: node
-                                      })).container));
+                return Jest.Expect.toMatchSnapshot(Jest.Expect.expect(ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, createComponent(undefined)).container));
               }));
         return Jest.test("when label is provided then has visible label", (function (param) {
                       var partial_arg = {
@@ -68,15 +50,7 @@ Jest.describe("DynamicInputComponent", (function (param) {
                       var arg$1 = function (param, param$1) {
                         return ReactTestingLibrary.getByTestId(partial_arg$1, param, param$1);
                       };
-                      return Curry._2(arg, undefined, expect(Curry._2(arg$1, undefined, ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, React.createElement(DynamicInput.make, {
-                                                  node: {
-                                                    attributes: attrs,
-                                                    group: "password",
-                                                    message: node_message,
-                                                    meta: metaWithLabel,
-                                                    type: "input"
-                                                  }
-                                                })))));
+                      return Curry._2(arg, undefined, expect(Curry._2(arg$1, undefined, ReactTestingLibrary.render(undefined, undefined, undefined, undefined, undefined, createComponentWithLabel(undefined)))));
                     }));
       }));
 

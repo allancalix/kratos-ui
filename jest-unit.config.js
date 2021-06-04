@@ -1,6 +1,7 @@
 module.exports = {
+  testEnvironment: "jsdom",
   testMatch: [
-    "**/__tests__/*.js?(x)",
+    "**/__tests__/**/*.js?(x)",
   ],
   verbose: true,
   transformIgnorePatterns: [
