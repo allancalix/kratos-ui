@@ -1,6 +1,7 @@
 name: ReScript UI
 on:
-  push: {}
+  push:
+    branches: [ main ]
 jobs:
   unit_tests:
     runs-on: ubuntu-20.04
