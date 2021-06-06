@@ -22,6 +22,15 @@ function parseSearchParams(url) {
               }), Belt_Map.make(SearchKeyCmp));
 }
 
+function forwardSearchParams(url) {
+  if (url.search === "") {
+    return url.search;
+  } else {
+    return "?" + url.search;
+  }
+}
+
 exports.SearchKeyCmp = SearchKeyCmp;
 exports.parseSearchParams = parseSearchParams;
+exports.forwardSearchParams = forwardSearchParams;
 /* SearchKeyCmp Not a pure module */

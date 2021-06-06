@@ -12,17 +12,13 @@ let make = () => {
       ->Promise.get(res => {
         switch res {
         | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
-        | Error(payload) => {
-            Js.log(payload.response)
-            if payload.response.status !== 200 {
-              RescriptReactRouter.push("/login")
-            }
+        | Error(payload) => if payload.response.status !== 200 {
+            RescriptReactRouter.push("/login")
           }
         }
       })
     | None =>
-      switch Window.redirect(KratosClient.loginSelfServeEndpoint) {
-
+      switch Window.redirect(KratosClient.loginSelfServeEndpoint ++ Url.forwardSearchParams(url)) {
       | Ok(_) => Js.log("Window location set but page redirect failed.")
       | Error(e) =>
         switch e {

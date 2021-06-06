@@ -22,7 +22,9 @@ let make = () => {
         }
       })
     | None =>
-      switch Window.redirect(KratosClient.registrationSelfServeEndpoint) {
+      switch Window.redirect(
+        KratosClient.registrationSelfServeEndpoint ++ Url.forwardSearchParams(url),
+      ) {
       | Ok(_) => Js.log("Window location set but page redirect failed.")
       | Error(e) =>
         switch e {

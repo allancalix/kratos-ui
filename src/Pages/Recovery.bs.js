@@ -37,7 +37,7 @@ function Recovery(Props) {
                     
                   }));
           } else {
-            var e = $$Window.redirect(KratosClient.recoverySelfServeEndpoint);
+            var e = $$Window.redirect(KratosClient.recoverySelfServeEndpoint + Url.forwardSearchParams(url));
             if (e.TAG === /* Ok */0) {
               console.log("Window location set but page redirect failed.");
             } else {

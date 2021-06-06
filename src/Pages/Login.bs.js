@@ -24,21 +24,20 @@ function Login(Props) {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
             $$Promise.get($$Promise.Js.toResult(KratosClient.api.getSelfServiceLoginFlow(id)), (function (res) {
-                    if (res.TAG === /* Ok */0) {
-                      var payload = res._0;
-                      return Curry._1(setMethods, (function (_prev) {
-                                    return payload.data.ui;
-                                  }));
+                    if (res.TAG !== /* Ok */0) {
+                      if (res._0.response.status !== 200) {
+                        return RescriptReactRouter.push("/login");
+                      } else {
+                        return ;
+                      }
                     }
-                    var payload$1 = res._0;
-                    console.log(payload$1.response);
-                    if (payload$1.response.status !== 200) {
-                      return RescriptReactRouter.push("/login");
-                    }
-                    
+                    var payload = res._0;
+                    return Curry._1(setMethods, (function (_prev) {
+                                  return payload.data.ui;
+                                }));
                   }));
           } else {
-            var e = $$Window.redirect(KratosClient.loginSelfServeEndpoint);
+            var e = $$Window.redirect(KratosClient.loginSelfServeEndpoint + Url.forwardSearchParams(url));
             if (e.TAG === /* Ok */0) {
               console.log("Window location set but page redirect failed.");
             } else {

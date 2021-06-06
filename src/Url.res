@@ -12,3 +12,9 @@ let parseSearchParams = (url: RescriptReactRouter.url) => {
     Belt.Map.set(acc, kv[0], kv[1])
   }, Belt.Map.make(~id=module(SearchKeyCmp)))
 }
+
+let forwardSearchParams = (url: RescriptReactRouter.url) =>
+  switch url.search == "" {
+  | true => url.search
+  | false => "?" ++ url.search
+  }

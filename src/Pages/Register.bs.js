@@ -39,7 +39,7 @@ function Register(Props) {
                     
                   }));
           } else {
-            var e = $$Window.redirect(KratosClient.registrationSelfServeEndpoint);
+            var e = $$Window.redirect(KratosClient.registrationSelfServeEndpoint + Url.forwardSearchParams(url));
             if (e.TAG === /* Ok */0) {
               console.log("Window location set but page redirect failed.");
             } else {

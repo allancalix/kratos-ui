@@ -1,5 +1,4 @@
 version: '3.7'
-
 services:
   postgresd:
     image: postgres:9.6
@@ -11,7 +10,6 @@ services:
       - POSTGRES_DB=kratos
     networks:
       - intranet
-
   kratos-migrate:
     depends_on:
       - postgresd
@@ -25,7 +23,6 @@ services:
     command: ["migrate", "sql", "--read-from-env", "--config", "/etc/config/kratos/kratos.yaml", "--yes"]
     networks:
       - intranet
-
   kratos:
     depends_on:
         - kratos-migrate
@@ -43,7 +40,6 @@ services:
       - 4433:4433
     networks:
       - intranet
-
   mailslurper:
     image: oryd/mailslurper:latest-smtps
     ports:
@@ -51,6 +47,5 @@ services:
       - '4437:4437'
     networks:
       - intranet
-
 networks:
   intranet:
