@@ -30,43 +30,46 @@ type uiNodeInputAttributes = {
   value: option<uiNodeInputAttributesValue>,
 }
 
-type testUiNodeAttributes =
+type uiNodeAttributes =
   | UiNodeInputAttributes(uiNodeInputAttributes)
   | UiNodeAnchorAttributes
   | UiNodeImageAttributes
   | UiNodeTextAttributes
   | UiNodeNotRecognized
 
-type uiNodeAttributes = uiNodeInputAttributes
+// attrFields contains the union of all fields for all possible payload types.
+// See uiNodeAttributes for all payload types. For any given payload, some of
+// these fields may not actually be defined, use parseAttrs for safe access.
+type attrFields = {
+  disabled: bool,
+  label: option<uiText>,
+  name: string,
+  pattern: option<string>,
+  required: option<bool>,
+  \"type": string,
+  value: option<uiNodeInputAttributesValue>,
+}
 
 type uiNode = {
+  // Direct access to this field is unsafe, use parseAttrs.
+  attributes: attrFields,
   group: string,
   messages: Js.Nullable.t<array<uiText>>,
   meta: meta,
   \"type": string,
 }
 
-type attributes
-@get external attributes: uiNode => attributes = "attributes"
-@get external disabled: attributes => bool = "disabled"
-@get external label: attributes => option<uiText> = "label"
-@get external name: attributes => string = "name"
-@get external pattern: attributes => option<string> = "pattern"
-@get external required: attributes => option<bool> = "required"
-@get external \"type": attributes => string = "type"
-@get external value: attributes => option<uiNodeInputAttributesValue> = "value"
-
 let parseAttrs = node =>
   switch node.\"type" {
   | "input" =>
     UiNodeInputAttributes({
-      disabled: node->attributes->disabled,
-      label: node->attributes->label,
-      name: node->attributes->name,
-      pattern: node->attributes->pattern,
-      required: node->attributes->required,
-      \"type": node->attributes->\"type",
-      value: node->attributes->value,
+      disabled: node.attributes.disabled,
+      label: node.attributes.label,
+      name: node.attributes.name,
+      pattern: node.attributes.pattern,
+      required: node.attributes.required,
+      \"type": node.attributes.\"type",
+      value: node.attributes.value,
     })
   | _ => UiNodeNotRecognized
   }
