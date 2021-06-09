@@ -10,6 +10,7 @@ var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
 var KratosClient = require("../KratosClient.bs.js");
+var ActionMessages = require("../Components/ActionMessages.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
 function Recovery(Props) {
@@ -60,10 +61,8 @@ function Recovery(Props) {
                     className: "max-w-md w-full space-y-8"
                   }, React.createElement("div", undefined, React.createElement("h2", {
                             className: "mt-6 text-center text-3xl font-extrabold text-gray-900"
-                          }, Messages.Recovery.title)), m !== undefined ? m.map(function (m) {
-                          return React.createElement("p", {
-                                      key: String(m.id)
-                                    }, m.text);
+                          }, Messages.Recovery.title)), m !== undefined ? React.createElement(ActionMessages.make, {
+                          messages: m
                         }) : null, React.createElement(Form.make, {
                         ui: container
                       })));

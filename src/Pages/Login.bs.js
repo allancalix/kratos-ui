@@ -11,6 +11,7 @@ var $$Promise = require("reason-promise/src/js/promise.bs.js");
 var Belt_Map = require("rescript/lib/js/belt_Map.js");
 var Messages = require("./Messages.bs.js");
 var KratosClient = require("../KratosClient.bs.js");
+var ActionMessages = require("../Components/ActionMessages.bs.js");
 var RescriptReactRouter = require("@rescript/react/src/RescriptReactRouter.bs.js");
 
 function Login(Props) {
@@ -69,10 +70,8 @@ function Login(Props) {
                                 onClick: (function (param) {
                                     return RescriptReactRouter.push(Route.register);
                                   })
-                              }, "register"))), m !== undefined ? m.map(function (m) {
-                          return React.createElement("p", {
-                                      key: String(m.id)
-                                    }, m.text);
+                              }, "register"))), m !== undefined ? React.createElement(ActionMessages.make, {
+                          messages: m
                         }) : null, React.createElement(Form.make, {
                         ui: container,
                         children: React.createElement("a", {

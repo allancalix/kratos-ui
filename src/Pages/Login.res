@@ -52,12 +52,7 @@ let make = () => {
           </p>
         </div>
         {switch container.messages {
-        | Some(m) =>
-          React.array(
-            m->Js.Array2.map(m => {
-              <p key={m.id->Belt.Int.toString}> {React.string(m.text)} </p>
-            }),
-          )
+        | Some(m) => <ActionMessages messages={m} />
         | None => React.null
         }}
         <Form ui={container}>
