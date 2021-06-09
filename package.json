@@ -4,8 +4,8 @@
   "description": "",
   "scripts": {
     "bundle": "NODE_ENV=production parcel build index.html --dist-dir public",
-    "re:build": "rescript",
-    "re:start": "rescript build -w",
+    "re:build": "rescript build -with-deps",
+    "re:start": "rescript build -with-deps -w",
     "serve": "parcel serve index.html -p 3000",
     "test": "npm run re:build && NODE_OPTIONS=--experimental-vm-modules jest -c jest-unit.config.js",
     "test:e2e": "jest -c jest-e2e.config.js",
