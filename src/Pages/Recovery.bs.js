@@ -19,6 +19,10 @@ function Recovery(Props) {
       });
   var setMethods = match[1];
   var methods = match[0];
+  var match$1 = React.useState(function () {
+        return Belt_Map.get(Url.parseSearchParams(url), "flow");
+      });
+  var setFlowID = match$1[1];
   React.useEffect((function () {
           var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
           if (id !== undefined) {
@@ -29,12 +33,14 @@ function Recovery(Props) {
                                     return payload.data.ui;
                                   }));
                     }
-                    var payload$1 = res._0;
-                    console.log(payload$1.response);
-                    if (payload$1.response.status !== 200) {
+                    var match = res._0.response.status;
+                    if (match !== 410) {
                       return RescriptReactRouter.push("/login");
+                    } else {
+                      return Curry._1(setFlowID, (function (_prev) {
+                                    
+                                  }));
                     }
-                    
                   }));
           } else {
             var e = $$Window.redirect(KratosClient.recoverySelfServeEndpoint + Url.forwardSearchParams(url));
@@ -45,7 +51,7 @@ function Recovery(Props) {
             }
           }
           
-        }), []);
+        }), [match$1[0]]);
   var loginForms = function (container) {
     var m = container.messages;
     return React.createElement("div", {

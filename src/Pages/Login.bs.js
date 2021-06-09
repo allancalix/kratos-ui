@@ -20,21 +20,28 @@ function Login(Props) {
       });
   var setMethods = match[1];
   var methods = match[0];
+  var match$1 = React.useState(function () {
+        return Belt_Map.get(Url.parseSearchParams(url), "flow");
+      });
+  var setFlowID = match$1[1];
+  var flowID = match$1[0];
   React.useEffect((function () {
-          var id = Belt_Map.get(Url.parseSearchParams(url), "flow");
-          if (id !== undefined) {
-            $$Promise.get($$Promise.Js.toResult(KratosClient.api.getSelfServiceLoginFlow(id)), (function (res) {
-                    if (res.TAG !== /* Ok */0) {
-                      if (res._0.response.status !== 200) {
-                        return RescriptReactRouter.push("/login");
-                      } else {
-                        return ;
-                      }
+          if (flowID !== undefined) {
+            $$Promise.get($$Promise.Js.toResult(KratosClient.api.getSelfServiceLoginFlow(flowID)), (function (res) {
+                    if (res.TAG === /* Ok */0) {
+                      var payload = res._0;
+                      return Curry._1(setMethods, (function (_prev) {
+                                    return payload.data.ui;
+                                  }));
                     }
-                    var payload = res._0;
-                    return Curry._1(setMethods, (function (_prev) {
-                                  return payload.data.ui;
-                                }));
+                    var match = res._0.response.status;
+                    if (match !== 410) {
+                      return RescriptReactRouter.push("/login");
+                    } else {
+                      return Curry._1(setFlowID, (function (_prev) {
+                                    
+                                  }));
+                    }
                   }));
           } else {
             var e = $$Window.redirect(KratosClient.loginSelfServeEndpoint + Url.forwardSearchParams(url));
@@ -45,7 +52,7 @@ function Login(Props) {
             }
           }
           
-        }), []);
+        }), [flowID]);
   var loginForms = function (container) {
     var m = container.messages;
     return React.createElement("div", {

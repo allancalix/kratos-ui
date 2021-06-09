@@ -2,8 +2,9 @@
 let make = () => {
   let url = RescriptReactRouter.useUrl()
   let (methods, setMethods) = React.useState(_ => None)
+  let (flowID, setFlowID) = React.useState(_ => url->Url.parseSearchParams->Belt.Map.get("flow"))
 
-  React.useEffect0(() => {
+  React.useEffect1(() => {
     switch url->Url.parseSearchParams->Belt.Map.get("flow") {
     | Some(id) =>
       KratosClient.api
@@ -13,11 +14,11 @@ let make = () => {
         Js.log(res)
         switch res {
         | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
-        | Error(payload) => {
-            Js.log(payload.response)
-            if payload.response.status !== 200 {
-              RescriptReactRouter.push("/login")
-            }
+        | Error(payload) => switch payload.response.status {
+              // 410: Gone. This means the flow id is expired and this process
+              // should repeat.
+              | 410 => setFlowID(_prev => None)
+              | _ => RescriptReactRouter.push("/login")
           }
         }
       })
@@ -33,7 +34,7 @@ let make = () => {
       }
     }
     None
-  })
+  }, [flowID])
 
   let loginForms = (container: Kratos.uiContainer) =>
     <div
