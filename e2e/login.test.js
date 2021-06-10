@@ -82,6 +82,10 @@ describe("Login", () => {
     user = await generateUser();
   });
 
+  afterEach(async () => {
+    await page.context().clearCookies();
+  });
+
   test("user should be able to login", async () => {
     await page.goto("http://127.0.0.1:3000/login");
     let login = new LoginPage();
@@ -93,6 +97,19 @@ describe("Login", () => {
     let _ = await dashboard.greeting();
 
     expect(page.url()).toBe("http://127.0.0.1:3000/")
+  });
+
+  test("user should be redirected after successful login", async () => {
+    const redirectURL = "https://www.google.com";
+    await page.goto(`http://127.0.0.1:3000/login?return_to=${redirectURL}`);
+    let login = new LoginPage();
+    let dashboard = new DashboardPage();
+
+    await login.fillIdentifier(user.email);
+    await login.fillPassword(user.password);
+    await login.submit();
+    await page.waitForNavigation();
+    expect(page.url()).toContain(redirectURL);
   });
 });
 
