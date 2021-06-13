@@ -7,3 +7,4 @@
 lib
 dist
 public
+.DS_Store
