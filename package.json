@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.7.0",
-    "bs-jest-dom": "git+https://github.com/allancalix/bs-jest-dom.git",
+    "bs-jest-dom": "allancalix/bs-jest-dom#master",
     "@rescriptbr/react-testing-library": "^1.0.1",
     "autoprefixer": "^10.2.6",
     "babel-plugin-transform-commonjs": "^1.1.6",
