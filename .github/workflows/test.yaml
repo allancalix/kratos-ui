@@ -13,7 +13,10 @@ jobs:
           node-version: 14.17.0
       - run: npm ci
       - name: Run Unit Tests
-        run: npm run ci:test
+        run: |
+          # Force using https instead of ssh for pulls
+          git config --global url."https://".insteadOf ssh://
+          npm run ci:test
       - uses: microsoft/playwright-github-action@v1
       - name: Run E2E Tests
         run: |
