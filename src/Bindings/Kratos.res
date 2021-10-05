@@ -246,23 +246,31 @@ external toSession: (
 ) => Promise.Js.t<response<session>, responseErr> = "toSession"
 
 @send
-external initializeSelfServiceLoginFlowForBrowsers: publicAPI => Promise.Js.t<
-  response<loginFlow>,
-  responseErr,
-> = "initializeSelfServiceLoginFlowForBrowsers"
+external initializeSelfServiceLoginFlowForBrowsers: (
+  publicAPI,
+  ~refresh: option<bool>,
+  ~aal: option<string>,
+  ~xSessionToken: option<string>,
+  ~options: Obj.t,
+) => Promise.Js.t<response<loginFlow>, responseErr> = "initializeSelfServiceLoginFlowForBrowsers"
 
 @send
-external initializeSelfServiceRegistrationFlowForBrowsers: publicAPI => Promise.Js.t<
-  response<registrationFlow>,
-  responseErr,
-> = "initializeSelfServiceRegistrationFlowForBrowsers"
+external initializeSelfServiceRegistrationFlowForBrowsers: (
+  publicAPI,
+  ~options: Obj.t,
+) => Promise.Js.t<response<registrationFlow>, responseErr> =
+  "initializeSelfServiceRegistrationFlowForBrowsers"
 
 @send
-external initializeSelfServiceRecoveryFlowForBrowsers: publicAPI => Promise.Js.t<
-  response<recoveryFlow>,
-  responseErr,
-> = "initializeSelfServiceRecoveryFlowForBrowsers"
+external initializeSelfServiceRecoveryFlowForBrowsers: (
+  publicAPI,
+  ~options: Obj.t,
+) => Promise.Js.t<response<recoveryFlow>, responseErr> =
+  "initializeSelfServiceRecoveryFlowForBrowsers"
 
 @send
-external createSelfServiceLogoutFlowUrlForBrowsers: publicAPI => // Omitted cookie?: string, options?: any
-Promise.Js.t<response<logoutFlow>, responseErr> = "createSelfServiceLogoutFlowUrlForBrowsers"
+external createSelfServiceLogoutFlowUrlForBrowsers: (
+  publicAPI,
+  ~cookie: option<string>,
+  ~options: Obj.t,
+) => Promise.Js.t<response<logoutFlow>, responseErr> = "createSelfServiceLogoutFlowUrlForBrowsers"

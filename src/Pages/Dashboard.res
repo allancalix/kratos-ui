@@ -25,7 +25,10 @@ let make = () => {
 
           // If an identity is found, prepare a url for logout.
           KratosClient.api
-          ->Kratos.createSelfServiceLogoutFlowUrlForBrowsers
+          ->Kratos.createSelfServiceLogoutFlowUrlForBrowsers(
+            ~cookie=None,
+            ~options=url->Url.paramsFromSourceURL,
+          )
           ->Promise.Js.toResult
           ->Promise.get(res => {
             switch res {
@@ -34,7 +37,8 @@ let make = () => {
             }
           })
         }
-      | Error(payload) => if payload.response.status === 401 {
+      | Error(payload) =>
+        if payload.response.status === 401 {
           RescriptReactRouter.push("/login")
         }
       }

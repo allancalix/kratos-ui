@@ -13,6 +13,16 @@ let parseSearchParams = (url: RescriptReactRouter.url) => {
   }, Belt.Map.make(~id=module(SearchKeyCmp)))
 }
 
+let paramsFromSourceURL = (url: RescriptReactRouter.url) => {
+  let params = url->parseSearchParams
+
+  Obj.magic({
+    "params": {
+      "return_to": params->Belt.Map.getWithDefault("return_to", ""),
+    },
+  })
+}
+
 let forwardSearchParams = (url: RescriptReactRouter.url) =>
   switch url.search == "" {
   | true => url.search

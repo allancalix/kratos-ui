@@ -21,6 +21,15 @@ function parseSearchParams(url) {
               }), Belt_Map.make(SearchKeyCmp));
 }
 
+function paramsFromSourceURL(url) {
+  var params = parseSearchParams(url);
+  return {
+          params: {
+            return_to: Belt_Map.getWithDefault(params, "return_to", "")
+          }
+        };
+}
+
 function forwardSearchParams(url) {
   if (url.search === "") {
     return url.search;
@@ -32,6 +41,7 @@ function forwardSearchParams(url) {
 export {
   SearchKeyCmp ,
   parseSearchParams ,
+  paramsFromSourceURL ,
   forwardSearchParams ,
   
 }

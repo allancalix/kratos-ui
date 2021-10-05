@@ -47,7 +47,7 @@ function Dashboard(Props) {
                   Curry._1(setIdentity, (function (_prev) {
                           return payload.data.identity;
                         }));
-                  return $$Promise.get($$Promise.Js.toResult(KratosClient.api.createSelfServiceLogoutFlowUrlForBrowsers()), (function (res) {
+                  return $$Promise.get($$Promise.Js.toResult(KratosClient.api.createSelfServiceLogoutFlowUrlForBrowsers(undefined, Url.paramsFromSourceURL(url))), (function (res) {
                                 if (res.TAG === /* Ok */0) {
                                   var p = res._0;
                                   return Curry._1(setLogoutURL, (function (_prev) {
