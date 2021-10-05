@@ -2,17 +2,8 @@
 
 A SPA (single page application) implementation of the browser-based flows for
 [Kratos.](https://github.com/ory/kratos) Currently, the UI implements the login,
-logout, registration, and recovery flows.
-
-## Overview
-
-This UI uses the browser flows to implement secure authentication flows. Browser
-flows require an initial backend request that results in a redirect to the requesting
-url with an authentication session token attached. The redirect may result in a
-slight flicker, although running locally it's often too fast to notice.
-
-Recently Kratos added support for [ajax flows](https://github.com/ory/kratos/pull/1367)
-that don't require full page reloads that work poorly with SPAs.
+logout, registration, and recovery flows. Rather than using redirects, this
+implementation leverages Kratos AJAX support to initialize flows.
 
 ## Tour
 

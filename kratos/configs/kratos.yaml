@@ -43,8 +43,8 @@ selfservice:
         password:
           hooks:
             - hook: session
-          default_browser_return_url: http://127.0.0.1:3000/login
-        default_browser_return_url: http://127.0.0.1:3000/login
+          default_browser_return_url: http://127.0.0.1:3000/
+        default_browser_return_url: http://127.0.0.1:3000/
 
 serve:
   admin:
@@ -54,7 +54,8 @@ serve:
     cors:
       enabled: true
       allowed_origins:
-        - http://127.0.0.1:3000
+        - http://127.0.0.1:3000 # ui
+        - http://127.0.0.1:4433
       allowed_methods:
         - POST
         - GET
@@ -84,10 +85,15 @@ secrets:
   cookie:
     - PLEASE-CHANGE-ME-I-AM-VERY-INSECURE
 
+cookies:
+  domain: 127.0.0.1
+  path: /
+  same_site: Lax
+
 session:
   lifespan: 24h
   cookie:
-    domain: http://127.0.0.1:3000
+    domain: 127.0.0.1
     same_site: Lax
 
 log:

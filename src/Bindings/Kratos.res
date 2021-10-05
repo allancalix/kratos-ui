@@ -2,7 +2,15 @@ type configuration
 
 type publicAPI
 
-type options = {basePath: string}
+type baseOptions = {
+  withCredentials: bool,
+  timeout: option<int>,
+}
+
+type options = {
+  basePath: string,
+  baseOptions: baseOptions,
+}
 
 type uiText = {
   // TODO(allancalix): Not sure about this.
@@ -159,6 +167,8 @@ type recoveryFlow = {
   ui: uiContainer,
 }
 
+type logoutFlow = {logout_url: string}
+
 type session = {
   active: option<bool>,
   authenticated_at: string,
@@ -207,7 +217,8 @@ type responseErr = {response: response<error>}
 
 @new @module("@ory/kratos-client")
 external makeConfiguration: options => configuration = "Configuration"
-@new @module("@ory/kratos-client") external makePublicAPI: configuration => publicAPI = "PublicApi"
+@new @module("@ory/kratos-client")
+external makePublicAPI: configuration => publicAPI = "V0alpha2Api"
 
 @send
 external getSelfServiceRecoveryFlow: (
@@ -233,3 +244,25 @@ external toSession: (
   option<string>,
   option<requestOpts>,
 ) => Promise.Js.t<response<session>, responseErr> = "toSession"
+
+@send
+external initializeSelfServiceLoginFlowForBrowsers: publicAPI => Promise.Js.t<
+  response<loginFlow>,
+  responseErr,
+> = "initializeSelfServiceLoginFlowForBrowsers"
+
+@send
+external initializeSelfServiceRegistrationFlowForBrowsers: publicAPI => Promise.Js.t<
+  response<registrationFlow>,
+  responseErr,
+> = "initializeSelfServiceRegistrationFlowForBrowsers"
+
+@send
+external initializeSelfServiceRecoveryFlowForBrowsers: publicAPI => Promise.Js.t<
+  response<recoveryFlow>,
+  responseErr,
+> = "initializeSelfServiceRecoveryFlowForBrowsers"
+
+@send
+external createSelfServiceLogoutFlowUrlForBrowsers: publicAPI => // Omitted cookie?: string, options?: any
+Promise.Js.t<response<logoutFlow>, responseErr> = "createSelfServiceLogoutFlowUrlForBrowsers"

@@ -1,40 +1,23 @@
 @react.component
 let make = () => {
-  let url = RescriptReactRouter.useUrl()
   let (methods, setMethods) = React.useState(_ => None)
-  let (flowID, setFlowID) = React.useState(_ => url->Url.parseSearchParams->Belt.Map.get("flow"))
 
-  React.useEffect1(() => {
-    switch url->Url.parseSearchParams->Belt.Map.get("flow") {
-    | Some(id) =>
-      KratosClient.api
-      ->Kratos.getSelfServiceRegistrationFlow(id)
-      ->Promise.Js.toResult
-      ->Promise.get(res => {
-        Js.log(res)
-        switch res {
-        | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
-        | Error(payload) => switch payload.response.status {
-              // 410: Gone. This means the flow id is expired and this process
-              // should repeat.
-              | 410 => setFlowID(_prev => None)
-              | _ => RescriptReactRouter.push("/login")
-          }
-        }
-      })
-    | None =>
-      switch Window.redirect(
-        KratosClient.registrationSelfServeEndpoint ++ Url.forwardSearchParams(url),
-      ) {
-      | Ok(_) => Js.log("Window location set but page redirect failed.")
-      | Error(e) =>
-        switch e {
-        | _ => Js.log(e)
+  React.useEffect0(() => {
+    KratosClient.api
+    ->Kratos.initializeSelfServiceRegistrationFlowForBrowsers
+    ->Promise.Js.toResult
+    ->Promise.get(res => {
+      switch res {
+      | Ok(payload) => setMethods(_prev => Some(payload.data.ui))
+      | Error(payload) =>
+        switch payload.response.status {
+        | _ => RescriptReactRouter.push("/login")
         }
       }
-    }
+    })
+
     None
-  }, [flowID])
+  })
 
   let loginForms = (container: Kratos.uiContainer) =>
     <div

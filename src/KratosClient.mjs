@@ -4,27 +4,23 @@ import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 import * as KratosClient from "@ory/kratos-client";
 
-var opts = {
-  basePath: Belt_Option.getWithDefault(Caml_option.nullable_to_opt(process.env.KRATOS_API), "")
+var opts_basePath = Belt_Option.getWithDefault(Caml_option.nullable_to_opt(process.env.KRATOS_API), "");
+
+var opts_baseOptions = {
+  withCredentials: true,
+  timeout: undefined
 };
 
-var api = new KratosClient.PublicApi(new KratosClient.Configuration(opts));
+var opts = {
+  basePath: opts_basePath,
+  baseOptions: opts_baseOptions
+};
 
-var recoverySelfServeEndpoint = opts.basePath + "/self-service/recovery/browser";
-
-var loginSelfServeEndpoint = opts.basePath + "/self-service/login/browser";
-
-var registrationSelfServeEndpoint = opts.basePath + "/self-service/registration/browser";
-
-var logoutSelfServeEndpoint = opts.basePath + "/self-service/browser/flows/logout";
+var api = new KratosClient.V0alpha2Api(new KratosClient.Configuration(opts));
 
 export {
   opts ,
   api ,
-  recoverySelfServeEndpoint ,
-  loginSelfServeEndpoint ,
-  registrationSelfServeEndpoint ,
-  logoutSelfServeEndpoint ,
   
 }
 /* opts Not a pure module */

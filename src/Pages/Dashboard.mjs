@@ -5,12 +5,13 @@ import * as Curry from "rescript/lib/es6/curry.js";
 import * as React from "react";
 import * as $$Window from "../Bindings/Window.mjs";
 import * as $$Promise from "reason-promise/src/js/promise.mjs";
+import * as Belt_Option from "rescript/lib/es6/belt_Option.js";
 import * as DynamicInput from "../Components/DynamicInput.mjs";
 import * as KratosClient from "../KratosClient.mjs";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.mjs";
 
-function signOut(url) {
-  var e = $$Window.redirect(KratosClient.logoutSelfServeEndpoint + Url.forwardSearchParams(url));
+function signOut(base, url) {
+  var e = $$Window.redirect(Belt_Option.getWithDefault(base, "") + Url.forwardSearchParams(url));
   if (e.TAG === /* Ok */0) {
     console.log("Window location set but page redirect failed.");
     return ;
@@ -26,23 +27,36 @@ function Dashboard(Props) {
       });
   var setIdentity = match[1];
   var identity = match[0];
+  var match$1 = React.useState(function () {
+        
+      });
+  var setLogoutURL = match$1[1];
+  var logoutURL = match$1[0];
   React.useEffect((function () {
           $$Promise.get($$Promise.Js.toResult(KratosClient.api.toSession(undefined, {
                         withCredentials: true
                       })), (function (res) {
-                  console.log(res);
-                  if (res.TAG === /* Ok */0) {
-                    var payload = res._0;
-                    return Curry._1(setIdentity, (function (_prev) {
-                                  return payload.data.identity;
-                                }));
+                  if (res.TAG !== /* Ok */0) {
+                    if (res._0.response.status === 401) {
+                      return RescriptReactRouter.push("/login");
+                    } else {
+                      return ;
+                    }
                   }
-                  var payload$1 = res._0;
-                  if (payload$1.response.status === 401) {
-                    RescriptReactRouter.push("/login");
-                  }
-                  console.log(payload$1.response);
-                  
+                  var payload = res._0;
+                  Curry._1(setIdentity, (function (_prev) {
+                          return payload.data.identity;
+                        }));
+                  return $$Promise.get($$Promise.Js.toResult(KratosClient.api.createSelfServiceLogoutFlowUrlForBrowsers()), (function (res) {
+                                if (res.TAG === /* Ok */0) {
+                                  var p = res._0;
+                                  return Curry._1(setLogoutURL, (function (_prev) {
+                                                return p.data.logout_url;
+                                              }));
+                                }
+                                console.log("could not render logout url");
+                                
+                              }));
                 }));
           
         }), []);
@@ -62,7 +76,7 @@ function Dashboard(Props) {
                       }, React.createElement("button", {
                             className: "inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
                             onClick: (function (_event) {
-                                return signOut(url);
+                                return signOut(logoutURL, url);
                               })
                           }, "Sign out"))) : null);
 }
