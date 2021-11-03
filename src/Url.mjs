@@ -23,11 +23,15 @@ function parseSearchParams(url) {
 
 function paramsFromSourceURL(url) {
   var params = parseSearchParams(url);
-  return {
-          params: {
-            return_to: Belt_Map.getWithDefault(params, "return_to", "")
-          }
-        };
+  var uri = Belt_Map.get(params, "return_to");
+  if (uri !== undefined) {
+    return {
+            params: {
+              return_to: uri
+            }
+          };
+  }
+  
 }
 
 function forwardSearchParams(url) {

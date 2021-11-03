@@ -16,11 +16,14 @@ let parseSearchParams = (url: RescriptReactRouter.url) => {
 let paramsFromSourceURL = (url: RescriptReactRouter.url) => {
   let params = url->parseSearchParams
 
-  Obj.magic({
-    "params": {
-      "return_to": params->Belt.Map.getWithDefault("return_to", ""),
-    },
-  })
+  switch params->Belt.Map.get("return_to") {
+    | Some(uri) => Obj.magic({
+      "params": {
+        "return_to": uri,
+      },
+    })
+    | None => Obj.magic()
+  }
 }
 
 let forwardSearchParams = (url: RescriptReactRouter.url) =>

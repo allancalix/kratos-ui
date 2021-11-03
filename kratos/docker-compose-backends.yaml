@@ -13,7 +13,7 @@ services:
   kratos-migrate:
     depends_on:
       - postgresd
-    image: oryd/kratos:v0.7.6
+    image: oryd/kratos:v0.8.0-alpha.3
     environment:
       - DSN=postgres://kratos:secret@postgresd:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
     volumes:
@@ -26,7 +26,7 @@ services:
   kratos:
     depends_on:
         - kratos-migrate
-    image: oryd/kratos:v0.7.6
+    image: oryd/kratos:v0.8.0-alpha.3
     environment:
       - DSN=postgres://kratos:secret@postgresd:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
     command: serve -c /etc/config/kratos/kratos.yaml --dev --watch-courier
