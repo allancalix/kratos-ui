@@ -12,14 +12,13 @@ import * as ActionMessages from "../Components/ActionMessages.mjs";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.mjs";
 
 function Login(Props) {
-  var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = React.useState(function () {
         
       });
   var setMethods = match[1];
   var methods = match[0];
   React.useEffect((function () {
-          $$Promise.get($$Promise.Js.toResult(KratosClient.api.initializeSelfServiceLoginFlowForBrowsers(undefined, undefined, undefined, Url.paramsFromSourceURL(url))), (function (res) {
+          $$Promise.get($$Promise.Js.toResult(KratosClient.api.initializeSelfServiceLoginFlowForBrowsers(undefined, undefined, undefined, Url.paramsFromSourceURL(undefined))), (function (res) {
                   if (res.TAG === /* Ok */0) {
                     var payload = res._0;
                     return Curry._1(setMethods, (function (_prev) {

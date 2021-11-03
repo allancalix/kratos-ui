@@ -3,6 +3,7 @@
 import * as Belt_Id from "rescript/lib/es6/belt_Id.js";
 import * as Belt_Map from "rescript/lib/es6/belt_Map.js";
 import * as Caml_obj from "rescript/lib/es6/caml_obj.js";
+import UrlParse from "url-parse";
 import * as Caml_array from "rescript/lib/es6/caml_array.js";
 import * as Caml_option from "rescript/lib/es6/caml_option.js";
 
@@ -21,14 +22,11 @@ function parseSearchParams(url) {
               }), Belt_Map.make(SearchKeyCmp));
 }
 
-function paramsFromSourceURL(url) {
-  var params = parseSearchParams(url);
-  var uri = Belt_Map.get(params, "return_to");
-  if (uri !== undefined) {
+function paramsFromSourceURL(param) {
+  var loc = typeof location === "undefined" ? undefined : location;
+  if (loc !== undefined) {
     return {
-            params: {
-              return_to: uri
-            }
+            params: new UrlParse(loc.href, "", true).query
           };
   }
   

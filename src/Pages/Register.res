@@ -1,11 +1,12 @@
 @react.component
 let make = () => {
-  let url = RescriptReactRouter.useUrl()
   let (methods, setMethods) = React.useState(_ => None)
 
   React.useEffect0(() => {
     KratosClient.api
-    ->Kratos.initializeSelfServiceRegistrationFlowForBrowsers(~options=url->Url.paramsFromSourceURL)
+    ->Kratos.initializeSelfServiceRegistrationFlowForBrowsers(
+      ~returnTo=None,
+      ~options=Url.paramsFromSourceURL())
     ->Promise.Js.toResult
     ->Promise.get(res => {
       switch res {

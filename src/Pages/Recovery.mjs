@@ -11,14 +11,13 @@ import * as ActionMessages from "../Components/ActionMessages.mjs";
 import * as RescriptReactRouter from "@rescript/react/src/RescriptReactRouter.mjs";
 
 function Recovery(Props) {
-  var url = RescriptReactRouter.useUrl(undefined, undefined);
   var match = React.useState(function () {
         
       });
   var setMethods = match[1];
   var methods = match[0];
   React.useEffect((function () {
-          $$Promise.get($$Promise.Js.toResult(KratosClient.api.initializeSelfServiceRecoveryFlowForBrowsers(Url.paramsFromSourceURL(url))), (function (res) {
+          $$Promise.get($$Promise.Js.toResult(KratosClient.api.initializeSelfServiceRecoveryFlowForBrowsers(undefined, Url.paramsFromSourceURL(undefined))), (function (res) {
                   if (res.TAG !== /* Ok */0) {
                     return RescriptReactRouter.push("/login");
                   }

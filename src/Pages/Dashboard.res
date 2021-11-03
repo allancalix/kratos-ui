@@ -27,7 +27,7 @@ let make = () => {
           KratosClient.api
           ->Kratos.createSelfServiceLogoutFlowUrlForBrowsers(
             ~cookie=None,
-            ~options=url->Url.paramsFromSourceURL,
+            ~options=Url.paramsFromSourceURL(),
           )
           ->Promise.Js.toResult
           ->Promise.get(res => {

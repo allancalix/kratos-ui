@@ -1,6 +1,5 @@
 @react.component
 let make = () => {
-  let url = RescriptReactRouter.useUrl()
   let (methods, setMethods) = React.useState(_ => None)
 
   React.useEffect0(() => {
@@ -8,8 +7,8 @@ let make = () => {
     ->Kratos.initializeSelfServiceLoginFlowForBrowsers(
       ~refresh=None,
       ~aal=None,
-      ~xSessionToken=None,
-      ~options=url->Url.paramsFromSourceURL,
+      ~returnTo=None,
+      ~options=Url.paramsFromSourceURL(),
     )
     ->Promise.Js.toResult
     ->Promise.get(res => {

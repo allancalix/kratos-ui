@@ -111,5 +111,20 @@ describe("Login", () => {
     await page.waitForNavigation();
     expect(page.url()).toContain(redirectURL);
   });
+
+  test("user should be redirected after successful login", async () => {
+    const redirectURL = "https%3A%2F%2Fwww.google.com%2F"; // url safe encoding
+    const expectedURL = "https://www.google.com";
+
+    await page.goto(`http://127.0.0.1:3000/login?return_to=${redirectURL}`);
+    let login = new LoginPage();
+    let dashboard = new DashboardPage();
+
+    await login.fillIdentifier(user.email);
+    await login.fillPassword(user.password);
+    await login.submit();
+    await page.waitForNavigation();
+    expect(page.url()).toContain(expectedURL);
+  });
 });
 

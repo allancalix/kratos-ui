@@ -250,13 +250,14 @@ external initializeSelfServiceLoginFlowForBrowsers: (
   publicAPI,
   ~refresh: option<bool>,
   ~aal: option<string>,
-  ~xSessionToken: option<string>,
+  ~returnTo: option<string>,
   ~options: Obj.t,
 ) => Promise.Js.t<response<loginFlow>, responseErr> = "initializeSelfServiceLoginFlowForBrowsers"
 
 @send
 external initializeSelfServiceRegistrationFlowForBrowsers: (
   publicAPI,
+  ~returnTo: option<string>,
   ~options: Obj.t,
 ) => Promise.Js.t<response<registrationFlow>, responseErr> =
   "initializeSelfServiceRegistrationFlowForBrowsers"
@@ -264,6 +265,7 @@ external initializeSelfServiceRegistrationFlowForBrowsers: (
 @send
 external initializeSelfServiceRecoveryFlowForBrowsers: (
   publicAPI,
+  ~returnTo: option<string>,
   ~options: Obj.t,
 ) => Promise.Js.t<response<recoveryFlow>, responseErr> =
   "initializeSelfServiceRecoveryFlowForBrowsers"

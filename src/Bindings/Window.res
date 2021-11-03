@@ -1,5 +1,7 @@
 module Unsafe = {
   @set external setHref: (Dom.location, string) => unit = "href"
+
+  @get external href: Dom.location => string = "href"
 }
 
 type errors = ErrorObjectNotFound(string)
